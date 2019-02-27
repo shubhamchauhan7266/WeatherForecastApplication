@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#15A186</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#15A186</color>
+
+    <!--style guide please do not define any color here define in temp section -->
+    <color name="fontPrimary100">#FF0c1e37</color>
+    <color name="fontPrimary90">#E60c1e37</color>
+    <color name="fontPrimary80">#CC0c1e37</color>
+    <color name="fontPrimary70">#B30c1e37</color>
+    <color name="fontPrimary60">#990c1e37</color>
+    <color name="fontPrimary50">#800c1e37</color>
+    <color name="fontPrimary40">#660c1e37</color>
+    <color name="fontPrimary30">#4D0c1e37</color>
+    <color name="fontPrimary25">#400c1e37</color>
+    <color name="fontPrimary20">#330c1e37</color>
+    <color name="fontPrimary10">#1A0c1e37</color>
+
+    <color name="button_color">#199E89</color>
+    <color name="white">#FFFFFF</color>
+    <color name="light_grey">#60dadada</color>
+    <color name="background_grey">#60EEEEEE</color>
+    <color name="transparent">#00000000</color>
+</resources>
