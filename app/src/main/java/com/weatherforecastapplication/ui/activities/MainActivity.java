@@ -1,4 +1,4 @@
-package com.weatherforecastapplication.ui;
+package com.weatherforecastapplication.ui.activities;
 
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -6,6 +6,8 @@ import android.support.v4.view.ViewPager;
 import com.weatherforecastapplication.BaseActivity;
 import com.weatherforecastapplication.R;
 import com.weatherforecastapplication.adapters.FragmentViewPagerAdapter;
+import com.weatherforecastapplication.ui.fragments.DailyWeatherForecastFragment;
+import com.weatherforecastapplication.ui.fragments.HourWeatherForecastFragment;
 
 public class MainActivity extends BaseActivity {
 

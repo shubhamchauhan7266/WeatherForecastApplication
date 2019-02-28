@@ -1,4 +1,4 @@
-package com.weatherforecastapplication.ui;
+package com.weatherforecastapplication.viewmodel;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
@@ -6,7 +6,7 @@ import android.arch.lifecycle.ViewModel;
 
 import com.weatherforecastapplication.WeatherForecastApplication;
 import com.weatherforecastapplication.constants.Constants;
-import com.weatherforecastapplication.models.DailyWeatherForecastResponseModel;
+import com.weatherforecastapplication.database.entity.DailyWeatherForecast;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -15,10 +15,10 @@ import retrofit2.Response;
 public class DailyWeatherForecastViewModel extends ViewModel {
 
     //this is the data that we will fetch asynchronously
-    private MutableLiveData<DailyWeatherForecastResponseModel> mDailyWeatherForecastData;
+    private MutableLiveData<DailyWeatherForecast> mDailyWeatherForecastData;
 
     //we will call this method to get the data
-    public LiveData<DailyWeatherForecastResponseModel> getDailyWeatherForecastData(String id) {
+    public LiveData<DailyWeatherForecast> getDailyWeatherForecastData(String id) {
         //if the list is null
         if (mDailyWeatherForecastData == null) {
             mDailyWeatherForecastData = new MutableLiveData<>();
@@ -34,19 +34,19 @@ public class DailyWeatherForecastViewModel extends ViewModel {
     //This method is using Retrofit to get the JSON data from URL
     private void loadDailyWeatherForecastData(String id, String appId) {
 
-        Call<DailyWeatherForecastResponseModel> call = WeatherForecastApplication.getClient().getDailyWeatherForecastData(id, appId);
+        Call<DailyWeatherForecast> call = WeatherForecastApplication.getClient().getDailyWeatherForecastData(id, appId);
 
-        call.enqueue(new Callback<DailyWeatherForecastResponseModel>() {
+        call.enqueue(new Callback<DailyWeatherForecast>() {
             @Override
-            public void onResponse(Call<DailyWeatherForecastResponseModel> call,
-                                   Response<DailyWeatherForecastResponseModel> response) {
+            public void onResponse(Call<DailyWeatherForecast> call,
+                                   Response<DailyWeatherForecast> response) {
 
                 //finally we are setting the list to our MutableLiveData
                 mDailyWeatherForecastData.setValue(response.body());
             }
 
             @Override
-            public void onFailure(Call<DailyWeatherForecastResponseModel> call, Throwable t) {
+            public void onFailure(Call<DailyWeatherForecast> call, Throwable t) {
 
             }
         });
