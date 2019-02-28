@@ -1,11 +1,13 @@
 package com.weatherforecastapplication.network;
 
+import com.weatherforecastapplication.constants.ApiConstants;
+import com.weatherforecastapplication.models.HourWeatherForecastResponseModel;
+
+import retrofit2.Call;
 import retrofit2.http.GET;
-import retrofit2.http.Query;
 
 public interface ApiClientInterface {
 
-//    @GET(ApiConstants.MEETING_SCHEDULE_DETAILS_API)
-//    Call<List<MeetingScheduleDetailsResponseModel>> getMeetingScheduleDetails(
-//            @Query(ApiConstants.API_PARAM_CONSTANT.DATE_KEY) String date);
+    @GET(ApiConstants.WEATHER_HOUR_DETAILS_API)
+    Call<HourWeatherForecastResponseModel> getHourWeatherForecastData();
 }
