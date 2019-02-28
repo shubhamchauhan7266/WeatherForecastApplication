@@ -70,14 +70,25 @@ public class HourWeatherForecastFragment extends Fragment implements Observer<Ho
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_hour_weather_forecast, container, false);
 
-        mViewModel = ViewModelProviders.of(this).get(HourWeatherForecastViewModel.class);
+        if (mContext != null && !mContext.isDestroyed() && !mContext.isFinishing() && isAdded()) {
 
-        mViewModel.getHourWeatherForecastData().observe(this, this);
+//            if (!ConnectivityUtils.isNetworkEnabled(mContext)) {
+//            }
+            mContext.showProgressDialog();
+        }
+        mViewModel = ViewModelProviders.of(this).get(HourWeatherForecastViewModel.class);
+        mViewModel.getHourWeatherForecastData("1270260").observe(this, this);
         return view;
     }
 
     @Override
     public void onChanged(@Nullable HourWeatherForecastResponseModel hourWeatherForecastResponseModel) {
 
+        if (mContext != null && !mContext.isDestroyed() && !mContext.isFinishing() && isAdded()) {
+
+//            if (!ConnectivityUtils.isNetworkEnabled(mContext)) {
+//            }
+            mContext.removeProgressDialog();
+        }
     }
 }

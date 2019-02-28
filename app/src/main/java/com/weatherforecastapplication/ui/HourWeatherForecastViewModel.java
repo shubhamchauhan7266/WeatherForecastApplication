@@ -5,6 +5,7 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 
 import com.weatherforecastapplication.WeatherForecastApplication;
+import com.weatherforecastapplication.constants.Constants;
 import com.weatherforecastapplication.models.HourWeatherForecastResponseModel;
 
 import retrofit2.Call;
@@ -17,23 +18,23 @@ public class HourWeatherForecastViewModel extends ViewModel {
     private MutableLiveData<HourWeatherForecastResponseModel> mHourWeatherForecastData;
 
     //we will call this method to get the data
-    public LiveData<HourWeatherForecastResponseModel> getHourWeatherForecastData() {
+    public LiveData<HourWeatherForecastResponseModel> getHourWeatherForecastData(String id) {
         //if the list is null
         if (mHourWeatherForecastData == null) {
             mHourWeatherForecastData = new MutableLiveData<>();
             //we will load it asynchronously from server in this method
         }
 
-        loadHourWeatherForecastData();
+        loadHourWeatherForecastData(id, Constants.APP_ID);
         //finally we will return the list
         return mHourWeatherForecastData;
     }
 
 
     //This method is using Retrofit to get the JSON data from URL
-    private void loadHourWeatherForecastData() {
+    private void loadHourWeatherForecastData(String id, String appId) {
 
-        Call<HourWeatherForecastResponseModel> call = WeatherForecastApplication.getClient().getHourWeatherForecastData();
+        Call<HourWeatherForecastResponseModel> call = WeatherForecastApplication.getClient().getHourWeatherForecastData(id, appId);
 
         call.enqueue(new Callback<HourWeatherForecastResponseModel>() {
             @Override
