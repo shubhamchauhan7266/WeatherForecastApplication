@@ -6,18 +6,23 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.weatherforecastapplication.BaseActivity;
 import com.weatherforecastapplication.R;
+import com.weatherforecastapplication.adapters.WeatherDetailRecyclerViewAdapter;
 import com.weatherforecastapplication.database.entity.HourWeatherForecast;
 import com.weatherforecastapplication.viewmodel.HourWeatherForecastViewModel;
 
 public class HourWeatherForecastFragment extends Fragment implements Observer<HourWeatherForecast> {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+
+    private String TAG = HourWeatherForecastFragment.class.getSimpleName();
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -26,6 +31,7 @@ public class HourWeatherForecastFragment extends Fragment implements Observer<Ho
     private String mParam2;
     private HourWeatherForecastViewModel mViewModel;
     private BaseActivity mContext;
+    private WeatherDetailRecyclerViewAdapter mWeatherDetailRecyclerViewAdapter;
 
     public HourWeatherForecastFragment() {
         // Required empty public constructor
@@ -62,7 +68,7 @@ public class HourWeatherForecastFragment extends Fragment implements Observer<Ho
     public void onAttach(Context context) {
         super.onAttach(context);
 
-        mContext = (BaseActivity)context;
+        mContext = (BaseActivity) context;
     }
 
     @Override
@@ -71,11 +77,19 @@ public class HourWeatherForecastFragment extends Fragment implements Observer<Ho
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_hour_weather_forecast, container, false);
 
+        RecyclerView rvHorizontalWeatherDetails = view.findViewById(R.id.rv_weather_details_horizontal);
+        RecyclerView.LayoutManager layoutManager2 = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+        rvHorizontalWeatherDetails.setLayoutManager(layoutManager2);
+        rvHorizontalWeatherDetails.setItemAnimator(new DefaultItemAnimator());
+
+        mWeatherDetailRecyclerViewAdapter = new WeatherDetailRecyclerViewAdapter(this,2);
+        rvHorizontalWeatherDetails.setAdapter(mWeatherDetailRecyclerViewAdapter);
+
         if (mContext != null && !mContext.isDestroyed() && !mContext.isFinishing() && isAdded()) {
 
 //            if (!ConnectivityUtils.isNetworkEnabled(mContext)) {
 //            }
-            mContext.showProgressDialog();
+//            mContext.showProgressDialog();
         }
         mViewModel = ViewModelProviders.of(this).get(HourWeatherForecastViewModel.class);
         mViewModel.getHourWeatherForecastData("1270260").observe(this, this);
@@ -85,6 +99,7 @@ public class HourWeatherForecastFragment extends Fragment implements Observer<Ho
     @Override
     public void onChanged(@Nullable HourWeatherForecast hourWeatherForecast) {
 
+        Log.e(TAG, hourWeatherForecast.toString());
         if (mContext != null && !mContext.isDestroyed() && !mContext.isFinishing() && isAdded()) {
 
 //            if (!ConnectivityUtils.isNetworkEnabled(mContext)) {

@@ -3,16 +3,19 @@ package com.weatherforecastapplication.viewmodel;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
+import android.util.Log;
 
 import com.weatherforecastapplication.WeatherForecastApplication;
 import com.weatherforecastapplication.constants.Constants;
 import com.weatherforecastapplication.database.entity.HourWeatherForecast;
+import com.weatherforecastapplication.ui.fragments.HourWeatherForecastFragment;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class HourWeatherForecastViewModel extends ViewModel {
+    private String TAG = HourWeatherForecastViewModel.class.getSimpleName();
 
     //this is the data that we will fetch asynchronously
     private MutableLiveData<HourWeatherForecast> mHourWeatherForecastData;
@@ -40,14 +43,16 @@ public class HourWeatherForecastViewModel extends ViewModel {
             @Override
             public void onResponse(Call<HourWeatherForecast> call,
                                    Response<HourWeatherForecast> response) {
+                assert response.body() != null;
+                Log.e(TAG, response.body().city.name);
 
                 //finally we are setting the list to our MutableLiveData
                 mHourWeatherForecastData.setValue(response.body());
             }
 
             @Override
-            public void onFailure(Call<HourWeatherForecast> call, Throwable t) {
-
+            public void onFailure(Call<HourWeatherForecast> call, Throwable throwable) {
+                Log.e(TAG, throwable.getMessage());
             }
         });
     }

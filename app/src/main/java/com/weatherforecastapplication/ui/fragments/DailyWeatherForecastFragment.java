@@ -74,7 +74,7 @@ public class DailyWeatherForecastFragment extends Fragment implements Observer<D
 
 //            if (!ConnectivityUtils.isNetworkEnabled(mContext)) {
 //            }
-            mContext.showProgressDialog();
+//            mContext.showProgressDialog();
         }
         mViewModel = ViewModelProviders.of(this).get(DailyWeatherForecastViewModel.class);
         mViewModel.getDailyWeatherForecastData("1270260").observe(this, this);
