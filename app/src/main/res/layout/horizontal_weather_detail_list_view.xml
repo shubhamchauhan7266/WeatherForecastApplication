@@ -12,14 +12,14 @@
 
         <ImageView
             android:id="@+id/iv_weather"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_cloud"
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_50sdp"
+            android:layout_gravity="center_horizontal"
+            android:background="@color/white"
+            android:contentDescription="@string/app_name"
             android:paddingTop="@dimen/_5sdp"
             android:paddingBottom="@dimen/_5sdp"
-            android:background="@color/white"
-            android:layout_gravity="center_horizontal"
-            android:contentDescription="@string/app_name" />
+            android:src="@drawable/ic_cloud" />
 
         <TextView
             android:id="@+id/tv_weather_temp"
@@ -27,33 +27,33 @@
             android:layout_height="wrap_content"
             android:background="@color/fontPrimary10"
             android:gravity="center_horizontal"
-            android:text="10.8 °C"
             android:paddingTop="@dimen/_5sdp"
             android:paddingBottom="@dimen/_5sdp"
+            android:text="10.8 °C"
             android:textColor="@color/fontPrimary90"
             android:textSize="@dimen/_14sdp"
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/tv_weather_speed"
+            android:id="@+id/tv_wind_speed"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/fontPrimary60"
             android:gravity="center_horizontal"
-            android:text="2.03 m/s ,"
             android:paddingTop="@dimen/_5sdp"
             android:paddingBottom="@dimen/_5sdp"
+            android:text="2.03 m/s ,"
             android:textColor="@android:color/white"
             android:textSize="@dimen/_14sdp" />
 
         <TextView
-            android:id="@+id/tv_weather_value"
+            android:id="@+id/tv_pressure_value"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/fontPrimary60"
+            android:gravity="center_horizontal"
             android:paddingTop="@dimen/_5sdp"
             android:paddingBottom="@dimen/_5sdp"
-            android:gravity="center_horizontal"
             android:text="1019.04"
             android:textColor="@color/white"
             android:textSize="@dimen/_14sdp" />

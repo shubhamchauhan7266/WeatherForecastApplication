@@ -13,4 +13,6 @@
     <string name="sunrise">Sunrise</string>
     <string name="sunset">Sunset</string>
     <string name="geocoords">Geocoords</string>
+    <string name="temp_min">Temp Min</string>
+    <string name="temp_max">Temp Max</string>
 </resources>

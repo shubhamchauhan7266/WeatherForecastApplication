@@ -11,4 +11,8 @@ public interface Constants {
 
     String APP_ID = "18b9eb4340b018f7bc1b637d5909c7eb";
 
+    String CLEAR_SKY = "Clear";
+    String RAIN = "Rain";
+    String CLOUDS = "Clouds";
+
 }
