@@ -1,6 +1,7 @@
 package com.weatherforecastapplication.database.entity;
 
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
 
 import java.io.Serializable;
 
@@ -11,4 +12,7 @@ import java.io.Serializable;
  */
 @Entity(tableName = "daily_weather_forecast")
 public class DailyWeatherForecast implements Serializable {
+
+    @PrimaryKey
+    public int id;
 }

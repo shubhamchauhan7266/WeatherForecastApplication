@@ -65,12 +65,10 @@ public class HourWeatherForecastFragment extends Fragment implements Observer<Ho
 
         if (mContext != null && !mContext.isDestroyed() && !mContext.isFinishing() && isAdded()) {
 
-//            if (!ConnectivityUtils.isNetworkEnabled(mContext)) {
-//            }
             mContext.showProgressDialog();
         }
         mViewModel = ViewModelProviders.of(this).get(HourWeatherForecastViewModel.class);
-        mViewModel.getHourWeatherForecastData("1270260").observe(this, this);
+        mViewModel.getHourWeatherForecastData(mContext,"1270260").observe(this, this);
         return view;
     }
 
@@ -88,8 +86,6 @@ public class HourWeatherForecastFragment extends Fragment implements Observer<Ho
 
         if (mContext != null && !mContext.isDestroyed() && !mContext.isFinishing() && isAdded()) {
 
-//            if (!ConnectivityUtils.isNetworkEnabled(mContext)) {
-//            }
             mContext.removeProgressDialog();
         }
 

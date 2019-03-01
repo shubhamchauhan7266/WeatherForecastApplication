@@ -19,6 +19,7 @@ import com.weatherforecastapplication.database.entity.HourWeatherForecast;
 public abstract class WeatherForecastDatabase extends RoomDatabase {
 
     public abstract HourWeatherForecastDao getHourWeatherForecastDao();
+
     public abstract DailyWeatherForecastDao getDailyWeatherForecastDao();
 
     private static WeatherForecastDatabase mProductDatabase;
@@ -28,7 +29,8 @@ public abstract class WeatherForecastDatabase extends RoomDatabase {
             synchronized (WeatherForecastDatabase.class) {
                 if (mProductDatabase == null) {
                     mProductDatabase = Room.databaseBuilder(context.getApplicationContext(),
-                            WeatherForecastDatabase.class, "the_archer_database")
+                            WeatherForecastDatabase.class, "weather_forecast_database")
+                            .allowMainThreadQueries()
                             .build();
 
                 }

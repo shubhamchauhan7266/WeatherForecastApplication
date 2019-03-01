@@ -3,15 +3,20 @@ package com.weatherforecastapplication.database.dao;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
+import android.arch.persistence.room.OnConflictStrategy;
+import android.arch.persistence.room.Query;
 
 import com.weatherforecastapplication.database.entity.HourWeatherForecast;
 
 @Dao
 public interface HourWeatherForecastDao {
 
-    @Insert
-    void insert(HourWeatherForecast data);
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    long insert(HourWeatherForecast data);
 
     @Delete
     void delete(HourWeatherForecast data);
+
+    @Query("SELECT * From hourly_weather_forecast WHERE hour_id = 0")
+    HourWeatherForecast getHourWeatherForecastDetails();
 }

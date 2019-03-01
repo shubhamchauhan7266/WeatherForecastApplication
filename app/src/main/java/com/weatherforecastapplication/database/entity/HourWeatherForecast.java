@@ -18,9 +18,9 @@ import java.util.ArrayList;
 @Entity(tableName = "hourly_weather_forecast")
 public class HourWeatherForecast {
 
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey()
     @Expose
-    public int id;
+    public int hour_id = 1;
 
     @Expose
     public double message;
@@ -46,7 +46,7 @@ public class HourWeatherForecast {
     }
 
     @Entity(foreignKeys = @ForeignKey(entity = HourWeatherForecast.class,
-            parentColumns = "id",
+            parentColumns = "hour_id",
             childColumns = "weather_id"))
     public static class WeatherList {
 
