@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.weatherforecastapplication.R;
 import com.weatherforecastapplication.ui.fragments.HourWeatherForecastFragment;
 
@@ -16,19 +17,15 @@ public class WeatherDetailRecyclerViewAdapter extends RecyclerView.Adapter<Weath
 
 
     public WeatherDetailRecyclerViewAdapter(HourWeatherForecastFragment hourWeatherForecastFragment, int sequence) {
-        this.hourWeatherForecastFragment=hourWeatherForecastFragment;
-        this.sequence=sequence;
+        this.hourWeatherForecastFragment = hourWeatherForecastFragment;
+        this.sequence = sequence;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemLayoutView;
-        if(sequence==1){
-            itemLayoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.vertical_weather_detail_list_view, null);
-        }else{
-            itemLayoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.horizontal_weather_detail_list_view, null);
-        }
+
+        View itemLayoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.horizontal_weather_detail_list_view, parent, false);
 
         return new ViewHolder(itemLayoutView);
     }

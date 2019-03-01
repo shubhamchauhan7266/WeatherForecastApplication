@@ -1,11 +1,13 @@
 package com.weatherforecastapplication.database.entity;
 
+import android.arch.persistence.room.Embedded;
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.ForeignKey;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.PrimaryKey;
 
 import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -14,130 +16,156 @@ import java.util.ArrayList;
  * @author Shubham Chauhan
  */
 @Entity(tableName = "hourly_weather_forecast")
-public class HourWeatherForecast implements Serializable {
-    @SerializedName("cod")
+public class HourWeatherForecast {
+
+    @PrimaryKey(autoGenerate = true)
+    @Expose
+    public int id;
+
     @Expose
     public String cod;
-    @SerializedName("message")
+
     @Expose
-    public Integer message;
-    @SerializedName("cnt")
+    public double message;
+
     @Expose
-    public Integer cnt;
-    @SerializedName("list")
+    public int cnt;
+
+    @Ignore
     @Expose
     public ArrayList<WeatherList> list;
-    @SerializedName("city")
+
+    @Embedded
     @Expose
     public City city;
 
-    public class City {
-        @SerializedName("country")
+    public static class City {
+
         @Expose
         public String country;
-        @SerializedName("coord")
+
+        @Embedded
         @Expose
         public Coord coord;
-        @SerializedName("name")
+
         @Expose
         public String name;
-        @SerializedName("id")
+
         @Expose
-        public Integer id;
+        public int id;
     }
 
-    public class Coord {
-        @SerializedName("lat")
+    public static class Coord {
+
         @Expose
-        public Integer lat;
-        @SerializedName("lon")
+        public double lat;
+
         @Expose
-        public Integer lon;
+        public double lon;
     }
 
-    public class WeatherList {
-        @SerializedName("dt")
+    @Entity(foreignKeys = @ForeignKey(entity = HourWeatherForecast.class,
+            parentColumns = "id",
+            childColumns = "weather_id"))
+    public static class WeatherList {
+
+        @PrimaryKey
         @Expose
-        public Integer dt;
-        @SerializedName("main")
+        public int dt;
+
+        @Embedded
         @Expose
         public Main main;
-        @SerializedName("clouds")
+
+        @Embedded
         @Expose
         public Clouds clouds;
-        @SerializedName("wind")
+
+        @Embedded
         @Expose
         public Wind wind;
-        @SerializedName("sys")
+
+        @Embedded
         @Expose
         public Sys sys;
-        @SerializedName("dt_txt")
+
         @Expose
-        public String dtTxt;
-        @SerializedName("weather")
+        public String dt_txt;
+
+        @Ignore
         @Expose
         public ArrayList<Weather> weather;
+
+        @Expose
+        public int weather_id;
     }
 
-    public class Main {
-        @SerializedName("temp")
+    public static class Main {
+
         @Expose
-        public Integer temp;
-        @SerializedName("temp_min")
+        public double temp;
+
         @Expose
-        public Integer temp_min;
-        @SerializedName("temp_max")
+        public double temp_min;
+
         @Expose
-        public Integer temp_max;
-        @SerializedName("pressure")
+        public double temp_max;
+
         @Expose
-        public Integer pressure;
-        @SerializedName("sea_level")
+        public double pressure;
+
         @Expose
-        public Integer sea_level;
-        @SerializedName("grnd_level")
+        public double sea_level;
+
         @Expose
-        public Integer grnd_level;
-        @SerializedName("humidity")
+        public double grnd_level;
+
         @Expose
-        public Integer humidity;
-        @SerializedName("temp_kf")
+        public double humidity;
+
         @Expose
-        public Integer temp_kf;
+        public double temp_kf;
     }
 
-    public class Weather {
-        @SerializedName("id")
+    @Entity(foreignKeys = @ForeignKey(entity = WeatherList.class,
+            parentColumns = "dt",
+            childColumns = "weather_dt"))
+    public static class Weather {
+
+        @PrimaryKey
         @Expose
-        public Integer id;
-        @SerializedName("main")
+        public int id;
+
         @Expose
         public String main;
-        @SerializedName("description")
+
         @Expose
         public String description;
-        @SerializedName("icon")
+
         @Expose
         public String icon;
+
+        @Expose
+        public int weather_dt;
     }
 
-    public class Clouds {
-        @SerializedName("all")
+    public static class Clouds {
+
         @Expose
-        public Integer all;
+        public int all;
     }
 
-    public class Wind {
-        @SerializedName("speed")
+    public static class Wind {
+
         @Expose
-        public Integer speed;
-        @SerializedName("deg")
+        public double speed;
+
         @Expose
-        public Integer deg;
+        public double deg;
     }
 
-    public class Sys {
-        @SerializedName("pod")
+    public static class Sys {
+
         @Expose
         public String pod;
     }
