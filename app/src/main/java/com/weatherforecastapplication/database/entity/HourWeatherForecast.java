@@ -23,13 +23,7 @@ public class HourWeatherForecast {
     public int id;
 
     @Expose
-    public String cod;
-
-    @Expose
     public double message;
-
-    @Expose
-    public int cnt;
 
     @Ignore
     @Expose
@@ -44,24 +38,11 @@ public class HourWeatherForecast {
         @Expose
         public String country;
 
-        @Embedded
-        @Expose
-        public Coord coord;
-
         @Expose
         public String name;
 
         @Expose
         public int id;
-    }
-
-    public static class Coord {
-
-        @Expose
-        public double lat;
-
-        @Expose
-        public double lon;
     }
 
     @Entity(foreignKeys = @ForeignKey(entity = HourWeatherForecast.class,
@@ -79,15 +60,7 @@ public class HourWeatherForecast {
 
         @Embedded
         @Expose
-        public Clouds clouds;
-
-        @Embedded
-        @Expose
         public Wind wind;
-
-        @Embedded
-        @Expose
-        public Sys sys;
 
         @Expose
         public String dt_txt;
@@ -115,16 +88,7 @@ public class HourWeatherForecast {
         public double pressure;
 
         @Expose
-        public double sea_level;
-
-        @Expose
-        public double grnd_level;
-
-        @Expose
         public double humidity;
-
-        @Expose
-        public double temp_kf;
     }
 
     @Entity(foreignKeys = @ForeignKey(entity = WeatherList.class,
@@ -143,30 +107,12 @@ public class HourWeatherForecast {
         public String description;
 
         @Expose
-        public String icon;
-
-        @Expose
         public int weather_dt;
-    }
-
-    public static class Clouds {
-
-        @Expose
-        public int all;
     }
 
     public static class Wind {
 
         @Expose
         public double speed;
-
-        @Expose
-        public double deg;
-    }
-
-    public static class Sys {
-
-        @Expose
-        public String pod;
     }
 }
