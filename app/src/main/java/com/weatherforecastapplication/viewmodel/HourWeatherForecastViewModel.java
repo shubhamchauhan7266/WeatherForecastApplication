@@ -10,7 +10,7 @@ import com.weatherforecastapplication.BaseActivity;
 import com.weatherforecastapplication.WeatherForecastApplication;
 import com.weatherforecastapplication.constants.Constants;
 import com.weatherforecastapplication.database.entity.HourWeatherForecast;
-import com.weatherforecastapplication.database.webrepo.HourWeatherForecastRepo;
+import com.weatherforecastapplication.database.webrepo.WeatherForecastRepo;
 import com.weatherforecastapplication.utills.ConnectivityUtils;
 
 import retrofit2.Call;
@@ -24,7 +24,7 @@ public class HourWeatherForecastViewModel extends ViewModel {
     private MutableLiveData<HourWeatherForecast> mHourWeatherForecastData;
 
     //we will call this method to get the data
-    public LiveData<HourWeatherForecast> getHourWeatherForecastData(Context context, String id) {
+    public LiveData<HourWeatherForecast> getHourWeatherForecastData(BaseActivity context, String id) {
         //if the list is null
         if (mHourWeatherForecastData == null) {
             mHourWeatherForecastData = new MutableLiveData<>();
@@ -33,7 +33,7 @@ public class HourWeatherForecastViewModel extends ViewModel {
         if (ConnectivityUtils.isNetworkEnabled(context)) {
             loadHourWeatherForecastData(context, id, Constants.APP_ID);
         } else {
-            HourWeatherForecastRepo repo = new HourWeatherForecastRepo(context, ((BaseActivity) context).getApplication());
+            WeatherForecastRepo repo = new WeatherForecastRepo(context, context.getApplication());
 
             HourWeatherForecast hourWeatherForecast = repo.getHourWeatherForeCastData();
 
@@ -55,10 +55,9 @@ public class HourWeatherForecastViewModel extends ViewModel {
             public void onResponse(Call<HourWeatherForecast> call,
                                    Response<HourWeatherForecast> response) {
                 assert response.body() != null;
-                Log.e(TAG, response.body().city.name);
 
                 //finally we are setting the list to our MutableLiveData and DB
-                HourWeatherForecastRepo repo = new HourWeatherForecastRepo(context, ((BaseActivity) context).getApplication());
+                WeatherForecastRepo repo = new WeatherForecastRepo(context, ((BaseActivity) context).getApplication());
                 repo.insertHourWeatherForecastData(response.body());
                 mHourWeatherForecastData.setValue(response.body());
             }
