@@ -14,5 +14,6 @@ public interface Constants {
     String CLEAR_SKY = "Clear";
     String RAIN = "Rain";
     String CLOUDS = "Clouds";
+    String DD_MMM_YYYY = "dd MMM yyyy";
 
 }

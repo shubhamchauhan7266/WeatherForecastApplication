@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.weatherforecastapplication.R;
 import com.weatherforecastapplication.constants.Constants;
 import com.weatherforecastapplication.database.entity.DailyWeatherForecast;
+import com.weatherforecastapplication.utills.DateUtills;
 
 import java.util.ArrayList;
 
@@ -42,7 +43,7 @@ public class DailyWeatherDetailAdapter extends RecyclerView.Adapter<DailyWeather
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
 
-        DailyWeatherForecast.WeatherList weatherDetails =  mWeatherList.get(position);
+        DailyWeatherForecast.WeatherList weatherDetails = mWeatherList.get(position);
 
         switch (weatherDetails.weather.get(0).main) {
             case Constants.RAIN:
@@ -56,7 +57,7 @@ public class DailyWeatherDetailAdapter extends RecyclerView.Adapter<DailyWeather
                 break;
         }
 
-        viewHolder.tvDate.setText(String.valueOf(weatherDetails.dt));
+        viewHolder.tvDate.setText(String.valueOf(DateUtills.getParsedDate(weatherDetails.dt, Constants.DD_MMM_YYYY)));
         viewHolder.tvTemp.setText(String.format(String.valueOf("%.2f " + (char) 0x00B0 + "C"), (weatherDetails.temp.day - 273.15)));
         viewHolder.tvCloudsDes.setText(String.valueOf(weatherDetails.weather.get(0).description));
         viewHolder.tvWindSpeed.setText(String.valueOf(weatherDetails.speed + " m/h"));
