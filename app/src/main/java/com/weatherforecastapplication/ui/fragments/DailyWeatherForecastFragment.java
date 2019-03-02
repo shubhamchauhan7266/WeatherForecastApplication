@@ -34,9 +34,7 @@ public class DailyWeatherForecastFragment extends Fragment implements Observer<D
 
         if (mContext != null && !mContext.isDestroyed() && !mContext.isFinishing() && isAdded()) {
 
-//            if (!ConnectivityUtils.isNetworkEnabled(mContext)) {
-//            }
-//            mContext.showProgressDialog();
+            mContext.showProgressDialog();
         }
         mViewModel = ViewModelProviders.of(this).get(DailyWeatherForecastViewModel.class);
         mViewModel.getDailyWeatherForecastData("1270260").observe(this, this);
@@ -48,8 +46,6 @@ public class DailyWeatherForecastFragment extends Fragment implements Observer<D
 
         if (mContext != null && !mContext.isDestroyed() && !mContext.isFinishing() && isAdded()) {
 
-//            if (!ConnectivityUtils.isNetworkEnabled(mContext)) {
-//            }
             mContext.removeProgressDialog();
         }
     }
