@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 import com.weatherforecastapplication.BaseActivity;
 import com.weatherforecastapplication.R;
-import com.weatherforecastapplication.adapters.WeatherDetailRecyclerViewAdapter;
+import com.weatherforecastapplication.adapters.HourWeatherDetailAdapter;
 import com.weatherforecastapplication.database.entity.HourWeatherForecast;
 import com.weatherforecastapplication.viewmodel.HourWeatherForecastViewModel;
 
@@ -29,7 +29,7 @@ public class HourWeatherForecastFragment extends Fragment implements Observer<Ho
 
     private HourWeatherForecastViewModel mViewModel;
     private BaseActivity mContext;
-    private WeatherDetailRecyclerViewAdapter mWeatherDetailRecyclerViewAdapter;
+    private HourWeatherDetailAdapter mHourWeatherDetailAdapter;
     private TextView mTvWindValue;
     private TextView mTvCloudinessValue;
     private TextView mTvPressureValue;
@@ -60,8 +60,8 @@ public class HourWeatherForecastFragment extends Fragment implements Observer<Ho
         rvHorizontalWeatherDetails.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
         rvHorizontalWeatherDetails.setItemAnimator(new DefaultItemAnimator());
 
-        mWeatherDetailRecyclerViewAdapter = new WeatherDetailRecyclerViewAdapter(mContext, new ArrayList<HourWeatherForecast.WeatherList>());
-        rvHorizontalWeatherDetails.setAdapter(mWeatherDetailRecyclerViewAdapter);
+        mHourWeatherDetailAdapter = new HourWeatherDetailAdapter(mContext, new ArrayList<HourWeatherForecast.WeatherList>());
+        rvHorizontalWeatherDetails.setAdapter(mHourWeatherDetailAdapter);
 
         if (mContext != null && !mContext.isDestroyed() && !mContext.isFinishing() && isAdded()) {
 
@@ -98,8 +98,8 @@ public class HourWeatherForecastFragment extends Fragment implements Observer<Ho
             mTvTempMinValue.setText(String.format(String.valueOf("%.2f " + (char) 0x00B0 + "C"), (hourWeatherForecast.list.get(0).main.temp_min - 273.15)));
             mTvTempMaxValue.setText(String.format(String.valueOf("%.2f " + (char) 0x00B0 + "C"), (hourWeatherForecast.list.get(0).main.temp_max - 273.15)));
 
-            mWeatherDetailRecyclerViewAdapter.setWeatherList(Objects.requireNonNull(hourWeatherForecast).list);
-            mWeatherDetailRecyclerViewAdapter.notifyDataSetChanged();
+            mHourWeatherDetailAdapter.setWeatherList(Objects.requireNonNull(hourWeatherForecast).list);
+            mHourWeatherDetailAdapter.notifyDataSetChanged();
         }
     }
 }

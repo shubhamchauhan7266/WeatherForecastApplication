@@ -15,14 +15,14 @@ import com.weatherforecastapplication.database.entity.HourWeatherForecast;
 
 import java.util.ArrayList;
 
-public class WeatherDetailRecyclerViewAdapter extends RecyclerView.Adapter<WeatherDetailRecyclerViewAdapter.ViewHolder> {
+public class HourWeatherDetailAdapter extends RecyclerView.Adapter<HourWeatherDetailAdapter.ViewHolder> {
 
     private Context mContext;
     private ArrayList<HourWeatherForecast.WeatherList> mWeatherList;
     private String TAG = this.getClass().getSimpleName();
 
 
-    public WeatherDetailRecyclerViewAdapter(Context context, ArrayList<HourWeatherForecast.WeatherList> weatherList) {
+    public HourWeatherDetailAdapter(Context context, ArrayList<HourWeatherForecast.WeatherList> weatherList) {
         mContext = context;
         mWeatherList = weatherList;
     }
