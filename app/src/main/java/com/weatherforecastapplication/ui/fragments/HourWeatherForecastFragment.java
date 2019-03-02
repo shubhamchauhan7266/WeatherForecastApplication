@@ -68,7 +68,7 @@ public class HourWeatherForecastFragment extends Fragment implements Observer<Ho
             mContext.showProgressDialog();
         }
         mViewModel = ViewModelProviders.of(this).get(HourWeatherForecastViewModel.class);
-        mViewModel.getHourWeatherForecastData(mContext,"1270260").observe(this, this);
+        mViewModel.getHourWeatherForecastData(mContext, "1270260").observe(this, this);
         return view;
     }
 
@@ -89,7 +89,7 @@ public class HourWeatherForecastFragment extends Fragment implements Observer<Ho
             mContext.removeProgressDialog();
         }
 
-        if (hourWeatherForecast != null) {
+        if (hourWeatherForecast != null && hourWeatherForecast.list != null && hourWeatherForecast.list.size() > 0) {
 
             mTvWindValue.setText(String.valueOf(hourWeatherForecast.list.get(0).wind.speed + " m/h"));
             mTvCloudinessValue.setText(String.valueOf(hourWeatherForecast.list.get(0).weather.get(0).description));

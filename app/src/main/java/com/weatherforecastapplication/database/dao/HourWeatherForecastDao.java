@@ -12,11 +12,11 @@ import com.weatherforecastapplication.database.entity.HourWeatherForecast;
 public interface HourWeatherForecastDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    long insert(HourWeatherForecast data);
+    void insert(HourWeatherForecast data);
 
     @Delete
     void delete(HourWeatherForecast data);
 
-    @Query("SELECT * From hourly_weather_forecast WHERE hour_id = 0")
+    @Query("SELECT * From hourly_weather_forecast WHERE hour_id = 1")
     HourWeatherForecast getHourWeatherForecastDetails();
 }

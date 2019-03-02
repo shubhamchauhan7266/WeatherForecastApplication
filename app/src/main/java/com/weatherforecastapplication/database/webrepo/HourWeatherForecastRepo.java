@@ -33,7 +33,7 @@ public class HourWeatherForecastRepo {
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
-                long temp = mHourWeatherForecastDao.insert(data);
+                mHourWeatherForecastDao.insert(data);
                 return null;
             }
         }.execute();
