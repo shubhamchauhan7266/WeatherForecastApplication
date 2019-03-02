@@ -6,8 +6,8 @@ import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.TypeConverters;
 
 import com.google.gson.annotations.Expose;
-import com.weatherforecastapplication.database.converters.WeatherListTypeConverter;
-import com.weatherforecastapplication.database.converters.WeatherTypeConverter;
+import com.weatherforecastapplication.database.converters.HourlyWeatherListTypeConverter;
+import com.weatherforecastapplication.database.converters.HourlyWeatherTypeConverter;
 
 import java.util.ArrayList;
 
@@ -26,7 +26,7 @@ public class HourWeatherForecast {
     @Expose
     public double message;
 
-    @TypeConverters(WeatherListTypeConverter.class)
+    @TypeConverters(HourlyWeatherListTypeConverter.class)
     @Expose
     public ArrayList<WeatherList> list;
 
@@ -63,12 +63,9 @@ public class HourWeatherForecast {
         @Expose
         public String dt_txt;
 
-        @TypeConverters(WeatherTypeConverter.class)
+        @TypeConverters(HourlyWeatherTypeConverter.class)
         @Expose
         public ArrayList<Weather> weather;
-
-        @Expose
-        public int weather_id;
     }
 
     public static class Main {
@@ -100,9 +97,6 @@ public class HourWeatherForecast {
 
         @Expose
         public String description;
-
-        @Expose
-        public int weather_dt;
     }
 
     public static class Wind {

@@ -9,19 +9,19 @@ import com.weatherforecastapplication.database.entity.HourWeatherForecast;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
-public class WeatherListTypeConverter {
+public class HourlyWeatherTypeConverter {
 
     private static Gson gson = new Gson();
-    private static Type type = new TypeToken<ArrayList<HourWeatherForecast.WeatherList>>() {
+    private static Type type = new TypeToken<ArrayList<HourWeatherForecast.Weather>>() {
     }.getType();
 
     @TypeConverter
-    public static ArrayList<HourWeatherForecast.WeatherList> stringToNestedData(String json) {
+    public static ArrayList<HourWeatherForecast.Weather> stringToNestedData(String json) {
         return gson.fromJson(json, type);
     }
 
     @TypeConverter
-    public static String nestedDataToString(ArrayList<HourWeatherForecast.WeatherList> nestedData) {
+    public static String nestedDataToString(ArrayList<HourWeatherForecast.Weather> nestedData) {
         return gson.toJson(nestedData, type);
     }
 }

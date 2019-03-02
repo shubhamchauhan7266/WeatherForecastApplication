@@ -2,11 +2,12 @@ package com.weatherforecastapplication.database.entity;
 
 import android.arch.persistence.room.Embedded;
 import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.ForeignKey;
-import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
+import android.arch.persistence.room.TypeConverters;
 
 import com.google.gson.annotations.Expose;
+import com.weatherforecastapplication.database.converters.DailyWeatherListTypeConverter;
+import com.weatherforecastapplication.database.converters.DailyWeatherTypeConverter;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -32,7 +33,7 @@ public class DailyWeatherForecast implements Serializable {
     @Expose
     public int cnt;
 
-    @Ignore
+    @TypeConverters(DailyWeatherListTypeConverter.class)
     @Expose
     public ArrayList<WeatherList> list;
 
@@ -52,9 +53,6 @@ public class DailyWeatherForecast implements Serializable {
         public int id;
     }
 
-    @Entity(foreignKeys = @ForeignKey(entity = HourWeatherForecast.class,
-            parentColumns = "daily_id",
-            childColumns = "weather_id"))
     public static class WeatherList {
 
         @PrimaryKey
@@ -80,17 +78,12 @@ public class DailyWeatherForecast implements Serializable {
         @Expose
         public double clouds;
 
-        @Ignore
+        @TypeConverters(DailyWeatherTypeConverter.class)
         @Expose
         public ArrayList<Weather> weather;
 
-        @Expose
-        public int weather_id;
     }
 
-    @Entity(foreignKeys = @ForeignKey(entity = WeatherList.class,
-            parentColumns = "dt",
-            childColumns = "weather_dt"))
     public static class Weather {
 
         @PrimaryKey
@@ -102,9 +95,6 @@ public class DailyWeatherForecast implements Serializable {
 
         @Expose
         public String description;
-
-        @Expose
-        public int weather_dt;
     }
 
     public static class Temp{

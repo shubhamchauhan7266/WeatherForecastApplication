@@ -4,24 +4,24 @@ import android.arch.persistence.room.TypeConverter;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.weatherforecastapplication.database.entity.HourWeatherForecast;
+import com.weatherforecastapplication.database.entity.DailyWeatherForecast;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
-public class WeatherTypeConverter {
+public class DailyWeatherListTypeConverter {
 
     private static Gson gson = new Gson();
-    private static Type type = new TypeToken<ArrayList<HourWeatherForecast.Weather>>() {
+    private static Type type = new TypeToken<ArrayList<DailyWeatherForecast.WeatherList>>() {
     }.getType();
 
     @TypeConverter
-    public static ArrayList<HourWeatherForecast.Weather> stringToNestedData(String json) {
+    public static ArrayList<DailyWeatherForecast.WeatherList> stringToNestedData(String json) {
         return gson.fromJson(json, type);
     }
 
     @TypeConverter
-    public static String nestedDataToString(ArrayList<HourWeatherForecast.Weather> nestedData) {
+    public static String nestedDataToString(ArrayList<DailyWeatherForecast.WeatherList> nestedData) {
         return gson.toJson(nestedData, type);
     }
 }

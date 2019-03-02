@@ -6,8 +6,10 @@ import android.arch.persistence.room.RoomDatabase;
 import android.arch.persistence.room.TypeConverters;
 import android.content.Context;
 
-import com.weatherforecastapplication.database.converters.WeatherListTypeConverter;
-import com.weatherforecastapplication.database.converters.WeatherTypeConverter;
+import com.weatherforecastapplication.database.converters.DailyWeatherListTypeConverter;
+import com.weatherforecastapplication.database.converters.DailyWeatherTypeConverter;
+import com.weatherforecastapplication.database.converters.HourlyWeatherListTypeConverter;
+import com.weatherforecastapplication.database.converters.HourlyWeatherTypeConverter;
 import com.weatherforecastapplication.database.dao.DailyWeatherForecastDao;
 import com.weatherforecastapplication.database.dao.HourWeatherForecastDao;
 import com.weatherforecastapplication.database.entity.DailyWeatherForecast;
@@ -19,7 +21,8 @@ import com.weatherforecastapplication.database.entity.HourWeatherForecast;
  * @author Shubham Chauhan
  */
 @Database(entities = {HourWeatherForecast.class, DailyWeatherForecast.class}, version = 1)
-@TypeConverters(value = {WeatherListTypeConverter.class, WeatherTypeConverter.class})
+@TypeConverters(value = {HourlyWeatherListTypeConverter.class, HourlyWeatherTypeConverter.class,
+        DailyWeatherTypeConverter.class, DailyWeatherListTypeConverter.class})
 public abstract class WeatherForecastDatabase extends RoomDatabase {
 
     public abstract HourWeatherForecastDao getHourWeatherForecastDao();
