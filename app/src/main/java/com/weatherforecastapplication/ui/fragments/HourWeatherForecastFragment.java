@@ -110,18 +110,24 @@ public class HourWeatherForecastFragment extends Fragment implements Observer<Ho
 
         if (hourWeatherForecast != null && hourWeatherForecast.list != null && hourWeatherForecast.list.size() > 0) {
 
-            mTvWindValue.setText(String.valueOf(hourWeatherForecast.list.get(mIsTomorrow ? 8 : 0).wind.speed + " m/h"));
-            mTvCloudinessValue.setText(String.valueOf(hourWeatherForecast.list.get(mIsTomorrow ? 8 : 0).weather.get(0).description));
-            mTvPressureValue.setText(String.valueOf(hourWeatherForecast.list.get(mIsTomorrow ? 8 : 0).main.pressure + " hpa"));
-            mTvHumidityValue.setText(String.valueOf(hourWeatherForecast.list.get(mIsTomorrow ? 8 : 0).main.humidity + " %"));
-            mTvState.setText(hourWeatherForecast.city.name);
-            mTvCountry.setText(hourWeatherForecast.city.country);
-
             long timeStamp = mIsTomorrow ? DateUtills.getNextDayTimeStamp() : DateUtills.getCurrentTimeStamp();
             ArrayList<HourWeatherForecast.WeatherList> list = new ArrayList<>();
+
+            boolean isFirst = true;
             for (HourWeatherForecast.WeatherList weatherList : hourWeatherForecast.list) {
                 if (DateUtills.getParsedDate(weatherList.dt, Constants.DD_MMM_YYYY).equals(DateUtills.getParsedDate((timeStamp / 1000), Constants.DD_MMM_YYYY))) {
                     list.add(weatherList);
+
+                    if (isFirst) {
+
+                        isFirst = false;
+                        mTvWindValue.setText(String.valueOf(weatherList.wind.speed + " m/h"));
+                        mTvCloudinessValue.setText(String.valueOf(weatherList.weather.get(0).description));
+                        mTvPressureValue.setText(String.valueOf(weatherList.main.pressure + " hpa"));
+                        mTvHumidityValue.setText(String.valueOf(weatherList.main.humidity + " %"));
+                        mTvState.setText(hourWeatherForecast.city.name);
+                        mTvCountry.setText(hourWeatherForecast.city.country);
+                    }
                 }
             }
             mHourWeatherDetailAdapter.setWeatherList(list);
