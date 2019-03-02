@@ -2,11 +2,12 @@ package com.weatherforecastapplication.database.entity;
 
 import android.arch.persistence.room.Embedded;
 import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.ForeignKey;
-import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
+import android.arch.persistence.room.TypeConverters;
 
 import com.google.gson.annotations.Expose;
+import com.weatherforecastapplication.database.converters.WeatherListTypeConverter;
+import com.weatherforecastapplication.database.converters.WeatherTypeConverter;
 
 import java.util.ArrayList;
 
@@ -25,7 +26,7 @@ public class HourWeatherForecast {
     @Expose
     public double message;
 
-    @Ignore
+    @TypeConverters(WeatherListTypeConverter.class)
     @Expose
     public ArrayList<WeatherList> list;
 
@@ -45,9 +46,6 @@ public class HourWeatherForecast {
         public int id;
     }
 
-    @Entity(foreignKeys = @ForeignKey(entity = HourWeatherForecast.class,
-            parentColumns = "hour_id",
-            childColumns = "weather_id"))
     public static class WeatherList {
 
         @PrimaryKey
@@ -65,7 +63,7 @@ public class HourWeatherForecast {
         @Expose
         public String dt_txt;
 
-        @Ignore
+        @TypeConverters(WeatherTypeConverter.class)
         @Expose
         public ArrayList<Weather> weather;
 
@@ -91,9 +89,6 @@ public class HourWeatherForecast {
         public double humidity;
     }
 
-    @Entity(foreignKeys = @ForeignKey(entity = WeatherList.class,
-            parentColumns = "dt",
-            childColumns = "weather_dt"))
     public static class Weather {
 
         @PrimaryKey
