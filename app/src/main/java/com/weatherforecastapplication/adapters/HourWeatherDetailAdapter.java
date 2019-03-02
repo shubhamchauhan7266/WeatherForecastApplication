@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.weatherforecastapplication.R;
 import com.weatherforecastapplication.constants.Constants;
 import com.weatherforecastapplication.database.entity.HourWeatherForecast;
+import com.weatherforecastapplication.utills.DateUtills;
 
 import java.util.ArrayList;
 
@@ -59,6 +60,7 @@ public class HourWeatherDetailAdapter extends RecyclerView.Adapter<HourWeatherDe
 
         viewHolder.tvWeatherTemp.setText(String.format(String.valueOf("%.2f " + (char) 0x00B0 + "C"), (weather.main.temp - 273.15)));
         viewHolder.tvWindSpeed.setText(String.valueOf(weather.wind.speed + " m/h"));
+        viewHolder.tvTime.setText(String.valueOf(DateUtills.getParsedDate(weather.dt, Constants.DD_MMM_YYYY)));
         viewHolder.tvPressureValue.setText(String.valueOf(weather.main.pressure + " hpa"));
     }
 
@@ -74,10 +76,12 @@ public class HourWeatherDetailAdapter extends RecyclerView.Adapter<HourWeatherDe
         private final TextView tvWeatherTemp;
         private final TextView tvWindSpeed;
         private final TextView tvPressureValue;
+        private final TextView tvTime;
 
         ViewHolder(View itemLayoutView) {
             super(itemLayoutView);
 
+            tvTime = itemLayoutView.findViewById(R.id.tv_time);
             ivWeather = itemLayoutView.findViewById(R.id.iv_weather);
             tvWeatherTemp = itemLayoutView.findViewById(R.id.tv_weather_temp);
             tvWindSpeed = itemLayoutView.findViewById(R.id.tv_wind_speed);

@@ -10,6 +10,17 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+        <TextView
+            android:id="@+id/tv_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:textColor="@color/fontPrimary90"
+            android:textSize="@dimen/_14sdp"
+            android:paddingTop="@dimen/_5sdp"
+            android:paddingBottom="@dimen/_5sdp"
+            android:textStyle="bold" />
+
         <ImageView
             android:id="@+id/iv_weather"
             android:layout_width="@dimen/_50sdp"

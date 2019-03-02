@@ -17,14 +17,16 @@ import android.widget.TextView;
 import com.weatherforecastapplication.BaseActivity;
 import com.weatherforecastapplication.R;
 import com.weatherforecastapplication.adapters.HourWeatherDetailAdapter;
+import com.weatherforecastapplication.constants.Constants;
 import com.weatherforecastapplication.database.entity.HourWeatherForecast;
+import com.weatherforecastapplication.utills.DateUtills;
 import com.weatherforecastapplication.viewmodel.HourWeatherForecastViewModel;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class HourWeatherForecastFragment extends Fragment implements Observer<HourWeatherForecast> {
 
+    private static final String DAY_KEY = "day";
     private String TAG = HourWeatherForecastFragment.class.getSimpleName();
 
     private HourWeatherForecastViewModel mViewModel;
@@ -36,16 +38,33 @@ public class HourWeatherForecastFragment extends Fragment implements Observer<Ho
     private TextView mTvHumidityValue;
     private TextView mTvTempMinValue;
     private TextView mTvTempMaxValue;
-
-    public HourWeatherForecastFragment() {
-        // Required empty public constructor
-    }
+    private boolean mIsTomorrow;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
 
         mContext = (BaseActivity) context;
+    }
+
+    public static HourWeatherForecastFragment getInstance(String day) {
+
+        HourWeatherForecastFragment hourWeatherForecastFragment = new HourWeatherForecastFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(DAY_KEY, day);
+        hourWeatherForecastFragment.setArguments(bundle);
+        return hourWeatherForecastFragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        if (getArguments() != null) {
+            String day = getArguments().getString(DAY_KEY, Constants.TODAY);
+
+            mIsTomorrow = day.equals(Constants.TOMORROW);
+        }
     }
 
     @Override
@@ -98,7 +117,14 @@ public class HourWeatherForecastFragment extends Fragment implements Observer<Ho
             mTvTempMinValue.setText(String.format(String.valueOf("%.2f " + (char) 0x00B0 + "C"), (hourWeatherForecast.list.get(0).main.temp_min - 273.15)));
             mTvTempMaxValue.setText(String.format(String.valueOf("%.2f " + (char) 0x00B0 + "C"), (hourWeatherForecast.list.get(0).main.temp_max - 273.15)));
 
-            mHourWeatherDetailAdapter.setWeatherList(Objects.requireNonNull(hourWeatherForecast).list);
+            long timeStamp = mIsTomorrow ? DateUtills.getNextDayTimeStamp() : DateUtills.getCurrentTimeStamp();
+            ArrayList<HourWeatherForecast.WeatherList> list = new ArrayList<>();
+            for (HourWeatherForecast.WeatherList weatherList : hourWeatherForecast.list) {
+                if (DateUtills.getParsedDate(weatherList.dt, Constants.DD_MMM_YYYY).equals(DateUtills.getParsedDate((timeStamp / 1000), Constants.DD_MMM_YYYY))) {
+                    list.add(weatherList);
+                }
+            }
+            mHourWeatherDetailAdapter.setWeatherList(list);
             mHourWeatherDetailAdapter.notifyDataSetChanged();
         }
     }

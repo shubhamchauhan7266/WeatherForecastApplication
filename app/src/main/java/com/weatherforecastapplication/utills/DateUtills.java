@@ -33,6 +33,18 @@ public class DateUtills {
         return DateFormat.format(format, cal).toString();
     }
 
+    public static long getNextDayTimeStamp(){
+        Calendar calendar = Calendar.getInstance(Locale.US);
+        calendar.add(Calendar.DAY_OF_MONTH, 1);
+
+        return calendar.getTimeInMillis();
+    }
+
+    public static long getCurrentTimeStamp(){
+        Calendar calendar = Calendar.getInstance(Locale.US);
+        return calendar.getTimeInMillis();
+    }
+
     /**
      * Method to compare two dates on time bases
      *
