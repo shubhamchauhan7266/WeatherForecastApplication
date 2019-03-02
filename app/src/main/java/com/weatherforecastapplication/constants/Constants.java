@@ -15,6 +15,7 @@ public interface Constants {
     String RAIN = "Rain";
     String CLOUDS = "Clouds";
     String DD_MMM_YYYY = "dd MMM yyyy";
+    String HH_A = "hh a";
     String TODAY = "today";
     String TOMORROW = "tomorrow";
 

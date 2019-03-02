@@ -96,8 +96,8 @@ public class HourWeatherForecastFragment extends Fragment implements Observer<Ho
         mTvCloudinessValue = view.findViewById(R.id.tv_cloudiness_value);
         mTvPressureValue = view.findViewById(R.id.tv_pressure_value);
         mTvHumidityValue = view.findViewById(R.id.tv_humidity_value);
-        mTvTempMinValue = view.findViewById(R.id.tv_temp_min_val);
-        mTvTempMaxValue = view.findViewById(R.id.tv_temp_max_val);
+        mTvTempMinValue = view.findViewById(R.id.tv_state_name);
+        mTvTempMaxValue = view.findViewById(R.id.tv_country_name);
     }
 
     @Override
@@ -110,12 +110,12 @@ public class HourWeatherForecastFragment extends Fragment implements Observer<Ho
 
         if (hourWeatherForecast != null && hourWeatherForecast.list != null && hourWeatherForecast.list.size() > 0) {
 
-            mTvWindValue.setText(String.valueOf(hourWeatherForecast.list.get(0).wind.speed + " m/h"));
-            mTvCloudinessValue.setText(String.valueOf(hourWeatherForecast.list.get(0).weather.get(0).description));
-            mTvPressureValue.setText(String.valueOf(hourWeatherForecast.list.get(0).main.pressure + " hpa"));
-            mTvHumidityValue.setText(String.valueOf(hourWeatherForecast.list.get(0).main.humidity + " %"));
-            mTvTempMinValue.setText(String.format(String.valueOf("%.2f " + (char) 0x00B0 + "C"), (hourWeatherForecast.list.get(0).main.temp_min - 273.15)));
-            mTvTempMaxValue.setText(String.format(String.valueOf("%.2f " + (char) 0x00B0 + "C"), (hourWeatherForecast.list.get(0).main.temp_max - 273.15)));
+            mTvWindValue.setText(String.valueOf(hourWeatherForecast.list.get(mIsTomorrow ? 8 : 0).wind.speed + " m/h"));
+            mTvCloudinessValue.setText(String.valueOf(hourWeatherForecast.list.get(mIsTomorrow ? 8 : 0).weather.get(0).description));
+            mTvPressureValue.setText(String.valueOf(hourWeatherForecast.list.get(mIsTomorrow ? 8 : 0).main.pressure + " hpa"));
+            mTvHumidityValue.setText(String.valueOf(hourWeatherForecast.list.get(mIsTomorrow ? 8 : 0).main.humidity + " %"));
+            mTvTempMinValue.setText(hourWeatherForecast.city.name);
+            mTvTempMaxValue.setText(hourWeatherForecast.city.country);
 
             long timeStamp = mIsTomorrow ? DateUtills.getNextDayTimeStamp() : DateUtills.getCurrentTimeStamp();
             ArrayList<HourWeatherForecast.WeatherList> list = new ArrayList<>();

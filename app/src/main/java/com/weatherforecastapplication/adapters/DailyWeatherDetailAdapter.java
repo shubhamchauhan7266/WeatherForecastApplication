@@ -91,7 +91,7 @@ public class DailyWeatherDetailAdapter extends RecyclerView.Adapter<DailyWeather
             tvWindSpeed = itemView.findViewById(R.id.tv_wind_speed);
             tvPressure = itemView.findViewById(R.id.tv_pressure);
             tvMaxTemp = itemView.findViewById(R.id.tv_max_temp);
-            tvTempMin = itemView.findViewById(R.id.tv_temp_min);
+            tvTempMin = itemView.findViewById(R.id.tv_state);
         }
     }
 }

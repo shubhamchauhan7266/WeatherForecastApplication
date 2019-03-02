@@ -12,7 +12,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/tv_temp_max"
+            android:layout_alignBottom="@id/tv_country"
             android:layout_alignParentTop="true"
             android:background="@color/background_grey" />
 
@@ -105,45 +105,45 @@
 
 
         <TextView
-            android:id="@+id/tv_temp_min"
+            android:id="@+id/tv_state"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_humidity_tag"
             android:layout_marginStart="@dimen/_20sdp"
             android:layout_marginTop="@dimen/_20sdp"
-            android:text="@string/temp_min"
+            android:text="@string/state"
             android:textColor="@color/fontPrimary90"
             android:textSize="@dimen/_14sdp"
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/tv_temp_min_val"
+            android:id="@+id/tv_state_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@id/tv_temp_min"
+            android:layout_alignTop="@id/tv_state"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="@dimen/_20sdp"
             android:textColor="@color/fontPrimary60"
             android:textSize="@dimen/_12sdp" />
 
         <TextView
-            android:id="@+id/tv_temp_max"
+            android:id="@+id/tv_country"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/tv_temp_min"
+            android:layout_below="@id/tv_state"
             android:layout_marginStart="@dimen/_20sdp"
             android:layout_marginTop="@dimen/_20sdp"
             android:paddingBottom="@dimen/_20sdp"
-            android:text="@string/temp_max"
+            android:text="@string/country"
             android:textColor="@color/fontPrimary90"
             android:textSize="@dimen/_14sdp"
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/tv_temp_max_val"
+            android:id="@+id/tv_country_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@id/tv_temp_max"
+            android:layout_alignTop="@id/tv_country"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="@dimen/_20sdp"
             android:textColor="@color/fontPrimary60"
@@ -153,7 +153,7 @@
             android:id="@+id/rv_weather_details_horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/tv_temp_max"
+            android:layout_below="@id/tv_country"
             android:orientation="horizontal" />
 
     </RelativeLayout>

@@ -60,7 +60,7 @@ public class HourWeatherDetailAdapter extends RecyclerView.Adapter<HourWeatherDe
 
         viewHolder.tvWeatherTemp.setText(String.format(String.valueOf("%.2f " + (char) 0x00B0 + "C"), (weather.main.temp - 273.15)));
         viewHolder.tvWindSpeed.setText(String.valueOf(weather.wind.speed + " m/h"));
-        viewHolder.tvTime.setText(String.valueOf(DateUtills.getParsedDate(weather.dt, Constants.DD_MMM_YYYY)));
+        viewHolder.tvTime.setText(String.valueOf(DateUtills.getParsedDate(weather.dt, Constants.HH_A)));
         viewHolder.tvPressureValue.setText(String.valueOf(weather.main.pressure + " hpa"));
     }
 
