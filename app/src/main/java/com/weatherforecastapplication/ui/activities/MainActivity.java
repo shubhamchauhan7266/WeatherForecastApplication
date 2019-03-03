@@ -33,6 +33,8 @@ public class MainActivity extends BaseActivity implements CitySearchListAdapter.
     private CitySearchListAdapter mCityListAdapter;
     private ArrayList<CityDetails> mCityList;
     private ViewPager mViewPagerMirror;
+    private SearchView mSearchView;
+    private TabLayout mTabLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,21 +43,22 @@ public class MainActivity extends BaseActivity implements CitySearchListAdapter.
 
         loadCityDetailsFromAsset();
 
-        mRvSearchCity = findViewById(R.id.rv_search_city);
-        mViewPagerMirror = findViewById(R.id.view_pager_mirror);
-        TabLayout tabLayout = findViewById(R.id.tab_layout_mirror);
-        final SearchView searchView = findViewById(R.id.search);
-        findViewById(R.id.iv_back).setOnClickListener(this);
-
+        initUi();
         setSearchListAdapter();
         setUpViewPager(mViewPagerMirror);
-        tabLayout.setupWithViewPager(mViewPagerMirror);
+        setUpSearchView();
+    }
 
-        searchView.setQueryHint(getString(R.string.enter_city_name));
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+    /**
+     * Method is used to set up search view.
+     */
+    private void setUpSearchView() {
+        mSearchView.setQueryHint(getString(R.string.enter_city_name));
+        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
             @Override
             public boolean onQueryTextSubmit(String query) {
+                hideKeyboard();
                 return false;
             }
 
@@ -75,14 +78,25 @@ public class MainActivity extends BaseActivity implements CitySearchListAdapter.
             }
         });
 
-        searchView.setOnClickListener(new View.OnClickListener() {
+        mSearchView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                searchView.setIconified(false);
+                mSearchView.setIconified(false);
             }
         });
 
-        searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
+        mSearchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
+    }
+
+    /**
+     * Method is used to init View.
+     */
+    private void initUi() {
+        mRvSearchCity = findViewById(R.id.rv_search_city);
+        mViewPagerMirror = findViewById(R.id.view_pager_mirror);
+        mTabLayout = findViewById(R.id.tab_layout_mirror);
+        mSearchView = findViewById(R.id.search);
+        findViewById(R.id.iv_back).setOnClickListener(this);
     }
 
     /**
@@ -131,10 +145,14 @@ public class MainActivity extends BaseActivity implements CitySearchListAdapter.
 
         viewPagerMirror.setOffscreenPageLimit(3);
         viewPagerMirror.setAdapter(mViewPagerAdapter);
+        mTabLayout.setupWithViewPager(mViewPagerMirror);
     }
 
     @Override
     public void onCityClick(int position) {
+        mSearchView.setQuery("", false);
+        mSearchView.clearFocus();
+        hideKeyboard();
         mRvSearchCity.setVisibility(View.GONE);
 
         int TODAY = 0;
@@ -165,9 +183,9 @@ public class MainActivity extends BaseActivity implements CitySearchListAdapter.
     @Override
     public void onBackPressed() {
 
-        if(mRvSearchCity.getVisibility() == View.VISIBLE){
+        if (mRvSearchCity.getVisibility() == View.VISIBLE) {
             mRvSearchCity.setVisibility(View.GONE);
-        }else {
+        } else {
             super.onBackPressed();
         }
     }
