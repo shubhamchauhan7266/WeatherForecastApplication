@@ -17,4 +17,5 @@
     <string name="temp_max">Temp Max</string>
     <string name="country">Country</string>
     <string name="state">State</string>
+    <string name="enter_city_name">Enter City name</string>
 </resources>

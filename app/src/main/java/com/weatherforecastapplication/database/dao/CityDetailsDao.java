@@ -16,6 +16,6 @@ public interface CityDetailsDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(ArrayList<CityDetails> cityList);
 
-    @Query("SELECT id,name,country From city_details WHERE name = :cityName")
+    @Query("SELECT id,name,country From city_details WHERE name LIKE :cityName")
     List<CityDetails> getCityDetails(String cityName);
 }

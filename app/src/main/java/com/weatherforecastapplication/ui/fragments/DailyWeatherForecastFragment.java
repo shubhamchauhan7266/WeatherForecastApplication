@@ -75,6 +75,16 @@ public class DailyWeatherForecastFragment extends Fragment implements Observer<D
         return view;
     }
 
+    /**
+     * Method is used to update weather forecast details according to location.
+     *
+     * @param cityId cityId
+     */
+    public void updateDataWithNewLocation(int cityId) {
+        mCityId = cityId;
+        mViewModel.getDailyWeatherForecastData(mContext, String.valueOf(mCityId));
+    }
+
     @Override
     public void onChanged(@Nullable DailyWeatherForecast dailyWeatherForecast) {
 

@@ -104,6 +104,18 @@ public class HourWeatherForecastFragment extends Fragment implements Observer<Ho
         mTvCountry = view.findViewById(R.id.tv_country_name);
     }
 
+    /**
+     * Method is used to update weather forecast details according to location.
+     *
+     * @param day day (Today or Tomorrow)
+     * @param cityId cityId
+     */
+    public void updateDataWithNewLocation(String day, int cityId) {
+        mIsTomorrow = day.equals(Constants.TOMORROW);
+        mCityId = cityId;
+        mViewModel.getHourWeatherForecastData(mContext, String.valueOf(mCityId));
+    }
+
     @Override
     public void onChanged(@Nullable HourWeatherForecast hourWeatherForecast) {
 
