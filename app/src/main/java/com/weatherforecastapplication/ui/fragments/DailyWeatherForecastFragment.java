@@ -49,7 +49,9 @@ public class DailyWeatherForecastFragment extends Fragment implements Observer<D
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null) {
-            mCityId = getArguments().getInt(CITY_ID);
+            //TODO update mCityId
+//            mCityId = getArguments().getInt(CITY_ID);
+            mCityId = 1270260;
         }
     }
 
@@ -71,7 +73,7 @@ public class DailyWeatherForecastFragment extends Fragment implements Observer<D
             mContext.showProgressDialog();
         }
         mViewModel = ViewModelProviders.of(this).get(DailyWeatherForecastViewModel.class);
-        mViewModel.getDailyWeatherForecastData(mContext, "1270260").observe(this, this);
+        mViewModel.getDailyWeatherForecastData(mContext, String.valueOf(mCityId)).observe(this, this);
         return view;
     }
 

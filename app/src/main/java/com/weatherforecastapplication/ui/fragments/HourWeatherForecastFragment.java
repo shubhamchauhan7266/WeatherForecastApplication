@@ -65,7 +65,10 @@ public class HourWeatherForecastFragment extends Fragment implements Observer<Ho
 
         if (getArguments() != null) {
             String day = getArguments().getString(DAY_KEY, Constants.TODAY);
-            mCityId = getArguments().getInt(CITY_ID);
+
+            //TODO update mCityId
+//            mCityId = getArguments().getInt(CITY_ID);
+            mCityId = 1270260;
 
             mIsTomorrow = day.equals(Constants.TOMORROW);
         }
@@ -91,7 +94,7 @@ public class HourWeatherForecastFragment extends Fragment implements Observer<Ho
             mContext.showProgressDialog();
         }
         mViewModel = ViewModelProviders.of(this).get(HourWeatherForecastViewModel.class);
-        mViewModel.getHourWeatherForecastData(mContext, "1270260").observe(this, this);
+        mViewModel.getHourWeatherForecastData(mContext, String.valueOf(mCityId)).observe(this, this);
         return view;
     }
 

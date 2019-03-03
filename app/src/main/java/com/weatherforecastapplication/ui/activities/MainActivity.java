@@ -35,6 +35,7 @@ public class MainActivity extends BaseActivity implements CitySearchListAdapter.
     private ViewPager mViewPagerMirror;
     private SearchView mSearchView;
     private TabLayout mTabLayout;
+    private int mCurrentCityId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,9 +140,9 @@ public class MainActivity extends BaseActivity implements CitySearchListAdapter.
      */
     private void setUpViewPager(ViewPager viewPagerMirror) {
         mViewPagerAdapter = new FragmentViewPagerAdapter(getSupportFragmentManager());
-        mViewPagerAdapter.addFragment(HourWeatherForecastFragment.getInstance(Constants.TODAY, 43523), getString(R.string.today));
-        mViewPagerAdapter.addFragment(HourWeatherForecastFragment.getInstance(Constants.TOMORROW, 266666), getString(R.string.tomorrow));
-        mViewPagerAdapter.addFragment(DailyWeatherForecastFragment.getInstance(9790770), getString(R.string.next_10_days));
+        mViewPagerAdapter.addFragment(HourWeatherForecastFragment.getInstance(Constants.TODAY, mCurrentCityId), getString(R.string.today));
+        mViewPagerAdapter.addFragment(HourWeatherForecastFragment.getInstance(Constants.TOMORROW, mCurrentCityId), getString(R.string.tomorrow));
+        mViewPagerAdapter.addFragment(DailyWeatherForecastFragment.getInstance(mCurrentCityId), getString(R.string.next_10_days));
 
         viewPagerMirror.setOffscreenPageLimit(3);
         viewPagerMirror.setAdapter(mViewPagerAdapter);
