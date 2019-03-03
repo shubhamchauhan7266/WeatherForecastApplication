@@ -23,14 +23,34 @@ import java.util.ArrayList;
 
 public class DailyWeatherForecastFragment extends Fragment implements Observer<DailyWeatherForecast> {
 
+    private static final String CITY_ID = "cityId";
     private BaseActivity mContext;
     private DailyWeatherForecastViewModel mViewModel;
     private DailyWeatherDetailAdapter mDailyWeatherDetailAdapter;
+    private int mCityId;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         mContext = (BaseActivity) context;
+    }
+
+    public static DailyWeatherForecastFragment getInstance(int cityId) {
+
+        DailyWeatherForecastFragment dailyWeatherForecastFragment = new DailyWeatherForecastFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt(CITY_ID, cityId);
+        dailyWeatherForecastFragment.setArguments(bundle);
+        return dailyWeatherForecastFragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        if (getArguments() != null) {
+            mCityId = getArguments().getInt(CITY_ID);
+        }
     }
 
     @Override

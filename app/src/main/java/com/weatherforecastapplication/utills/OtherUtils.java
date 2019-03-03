@@ -8,6 +8,9 @@ import android.text.Html;
 import com.weatherforecastapplication.BaseActivity;
 import com.weatherforecastapplication.R;
 
+import java.io.IOException;
+import java.io.InputStream;
+
 public class OtherUtils {
 
     /**
@@ -31,5 +34,27 @@ public class OtherUtils {
                 e.printStackTrace();
             }
         }
+    }
+
+    /**
+     * Method is used to load json data from json file in Asset.
+     *
+     * @param context context
+     * @return json data in the form of object.
+     */
+    public static String loadJSONFromAsset(Context context) {
+        String json;
+        try {
+            InputStream is = context.getAssets().open("city_list.json");
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+            json = new String(buffer, "UTF-8");
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+        return json;
     }
 }

@@ -9,7 +9,6 @@ import com.google.gson.annotations.Expose;
 import com.weatherforecastapplication.database.converters.DailyWeatherListTypeConverter;
 import com.weatherforecastapplication.database.converters.DailyWeatherTypeConverter;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -18,7 +17,7 @@ import java.util.ArrayList;
  * @author Shubham Chauhan
  */
 @Entity(tableName = "daily_weather_forecast")
-public class DailyWeatherForecast implements Serializable {
+public class DailyWeatherForecast{
 
     @PrimaryKey
     @Expose

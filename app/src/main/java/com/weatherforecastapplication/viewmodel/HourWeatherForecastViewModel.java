@@ -34,9 +34,7 @@ public class HourWeatherForecastViewModel extends ViewModel {
             loadHourWeatherForecastData(context, id, Constants.APP_ID);
         } else {
             WeatherForecastRepo repo = new WeatherForecastRepo(context, context.getApplication());
-
             HourWeatherForecast hourWeatherForecast = repo.getHourWeatherForeCastData();
-
             mHourWeatherForecastData.setValue(hourWeatherForecast);
         }
 

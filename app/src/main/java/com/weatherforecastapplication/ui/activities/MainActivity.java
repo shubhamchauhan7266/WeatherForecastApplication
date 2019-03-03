@@ -11,8 +11,17 @@ import com.weatherforecastapplication.BaseActivity;
 import com.weatherforecastapplication.R;
 import com.weatherforecastapplication.adapters.FragmentViewPagerAdapter;
 import com.weatherforecastapplication.constants.Constants;
+import com.weatherforecastapplication.database.entity.CityDetails;
+import com.weatherforecastapplication.database.webrepo.WeatherForecastRepo;
 import com.weatherforecastapplication.ui.fragments.DailyWeatherForecastFragment;
 import com.weatherforecastapplication.ui.fragments.HourWeatherForecastFragment;
+import com.weatherforecastapplication.utills.OtherUtils;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 public class MainActivity extends BaseActivity {
 
@@ -22,6 +31,8 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        loadCityDetailsFromAsset();
 
         ViewPager viewPagerMirror = findViewById(R.id.view_pager_mirror);
         setUpViewPager(viewPagerMirror);
@@ -55,16 +66,40 @@ public class MainActivity extends BaseActivity {
     }
 
     /**
+     * Method is used to load City details from asset and store into Room Database.
+     */
+    private void loadCityDetailsFromAsset() {
+        try {
+            JSONArray jsonArray = new JSONArray(OtherUtils.loadJSONFromAsset(this));
+
+            ArrayList<CityDetails> cityDetailsList = new ArrayList<>();
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                int id = jsonObject.getInt(Constants.ID);
+                String name = jsonObject.getString(Constants.NAME);
+                String country = jsonObject.getString(Constants.COUNTRY);
+                cityDetailsList.add(new CityDetails(id, name, country));
+            }
+
+            WeatherForecastRepo repo = new WeatherForecastRepo(this, getApplication());
+            repo.insertCityDetails(cityDetailsList);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
      * Method is used to set up View Pager.
      *
      * @param viewPagerMirror viewPagerMirror
      */
     private void setUpViewPager(ViewPager viewPagerMirror) {
         mAdapter = new FragmentViewPagerAdapter(getSupportFragmentManager());
-        mAdapter.addFragment(HourWeatherForecastFragment.getInstance(Constants.TODAY), getString(R.string.today));
-        mAdapter.addFragment(HourWeatherForecastFragment.getInstance(Constants.TOMORROW), getString(R.string.tomorrow));
-        mAdapter.addFragment(new DailyWeatherForecastFragment(), getString(R.string.next_10_days));
+        mAdapter.addFragment(HourWeatherForecastFragment.getInstance(Constants.TODAY, 43523), getString(R.string.today));
+        mAdapter.addFragment(HourWeatherForecastFragment.getInstance(Constants.TOMORROW, 266666), getString(R.string.tomorrow));
+        mAdapter.addFragment(DailyWeatherForecastFragment.getInstance(9790770), getString(R.string.next_10_days));
 
+        viewPagerMirror.setOffscreenPageLimit(3);
         viewPagerMirror.setAdapter(mAdapter);
     }
 }

@@ -10,8 +10,10 @@ import com.weatherforecastapplication.database.converters.DailyWeatherListTypeCo
 import com.weatherforecastapplication.database.converters.DailyWeatherTypeConverter;
 import com.weatherforecastapplication.database.converters.HourlyWeatherListTypeConverter;
 import com.weatherforecastapplication.database.converters.HourlyWeatherTypeConverter;
+import com.weatherforecastapplication.database.dao.CityDetailsDao;
 import com.weatherforecastapplication.database.dao.DailyWeatherForecastDao;
 import com.weatherforecastapplication.database.dao.HourWeatherForecastDao;
+import com.weatherforecastapplication.database.entity.CityDetails;
 import com.weatherforecastapplication.database.entity.DailyWeatherForecast;
 import com.weatherforecastapplication.database.entity.HourWeatherForecast;
 
@@ -20,7 +22,7 @@ import com.weatherforecastapplication.database.entity.HourWeatherForecast;
  *
  * @author Shubham Chauhan
  */
-@Database(entities = {HourWeatherForecast.class, DailyWeatherForecast.class}, version = 1)
+@Database(entities = {HourWeatherForecast.class, DailyWeatherForecast.class, CityDetails.class}, version = 1)
 @TypeConverters(value = {HourlyWeatherListTypeConverter.class, HourlyWeatherTypeConverter.class,
         DailyWeatherTypeConverter.class, DailyWeatherListTypeConverter.class})
 public abstract class WeatherForecastDatabase extends RoomDatabase {
@@ -28,6 +30,8 @@ public abstract class WeatherForecastDatabase extends RoomDatabase {
     public abstract HourWeatherForecastDao getHourWeatherForecastDao();
 
     public abstract DailyWeatherForecastDao getDailyWeatherForecastDao();
+
+    public abstract CityDetailsDao getCityDetailsDao();
 
     private static WeatherForecastDatabase mProductDatabase;
 

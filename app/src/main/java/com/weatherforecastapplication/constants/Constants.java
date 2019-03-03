@@ -18,5 +18,8 @@ public interface Constants {
     String HH_A = "hh a";
     String TODAY = "today";
     String TOMORROW = "tomorrow";
+    String ID = "id";
+    String NAME = "name";
+    String COUNTRY = "country";
 
 }

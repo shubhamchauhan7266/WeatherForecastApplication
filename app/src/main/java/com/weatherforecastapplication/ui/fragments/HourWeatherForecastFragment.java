@@ -27,6 +27,7 @@ import java.util.ArrayList;
 public class HourWeatherForecastFragment extends Fragment implements Observer<HourWeatherForecast> {
 
     private static final String DAY_KEY = "day";
+    private static final String CITY_ID = "cityId";
     private String TAG = HourWeatherForecastFragment.class.getSimpleName();
 
     private HourWeatherForecastViewModel mViewModel;
@@ -39,6 +40,7 @@ public class HourWeatherForecastFragment extends Fragment implements Observer<Ho
     private TextView mTvState;
     private TextView mTvCountry;
     private boolean mIsTomorrow;
+    private int mCityId;
 
     @Override
     public void onAttach(Context context) {
@@ -47,11 +49,12 @@ public class HourWeatherForecastFragment extends Fragment implements Observer<Ho
         mContext = (BaseActivity) context;
     }
 
-    public static HourWeatherForecastFragment getInstance(String day) {
+    public static HourWeatherForecastFragment getInstance(String day, int cityId) {
 
         HourWeatherForecastFragment hourWeatherForecastFragment = new HourWeatherForecastFragment();
         Bundle bundle = new Bundle();
         bundle.putString(DAY_KEY, day);
+        bundle.putInt(CITY_ID, cityId);
         hourWeatherForecastFragment.setArguments(bundle);
         return hourWeatherForecastFragment;
     }
@@ -62,6 +65,7 @@ public class HourWeatherForecastFragment extends Fragment implements Observer<Ho
 
         if (getArguments() != null) {
             String day = getArguments().getString(DAY_KEY, Constants.TODAY);
+            mCityId = getArguments().getInt(CITY_ID);
 
             mIsTomorrow = day.equals(Constants.TOMORROW);
         }
