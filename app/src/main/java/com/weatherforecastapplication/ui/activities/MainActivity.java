@@ -26,7 +26,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class MainActivity extends BaseActivity implements CitySearchListAdapter.ICitySearchListAdapterCallBack {
+public class MainActivity extends BaseActivity implements CitySearchListAdapter.ICitySearchListAdapterCallBack, View.OnClickListener {
 
     private FragmentViewPagerAdapter mViewPagerAdapter;
     private RecyclerView mRvSearchCity;
@@ -45,6 +45,7 @@ public class MainActivity extends BaseActivity implements CitySearchListAdapter.
         mViewPagerMirror = findViewById(R.id.view_pager_mirror);
         TabLayout tabLayout = findViewById(R.id.tab_layout_mirror);
         final SearchView searchView = findViewById(R.id.search);
+        findViewById(R.id.iv_back).setOnClickListener(this);
 
         setSearchListAdapter();
         setUpViewPager(mViewPagerMirror);
@@ -84,6 +85,9 @@ public class MainActivity extends BaseActivity implements CitySearchListAdapter.
         searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
     }
 
+    /**
+     * Method is used to set City Search List adapter.
+     */
     private void setSearchListAdapter() {
         mCityList = new ArrayList<>();
         mCityListAdapter = new CitySearchListAdapter(this, mCityList);
@@ -137,6 +141,7 @@ public class MainActivity extends BaseActivity implements CitySearchListAdapter.
         int TOMORROW = 1;
         int NEXT_7_DAYS = 2;
 
+        // update weather forecast details
         HourWeatherForecastFragment todayFragment = (HourWeatherForecastFragment) mViewPagerAdapter.getItem(TODAY);
         todayFragment.updateDataWithNewLocation(Constants.TODAY, mCityList.get(position).id);
 
@@ -145,5 +150,25 @@ public class MainActivity extends BaseActivity implements CitySearchListAdapter.
 
         DailyWeatherForecastFragment dailyWeatherForecastFragment = (DailyWeatherForecastFragment) mViewPagerAdapter.getItem(NEXT_7_DAYS);
         dailyWeatherForecastFragment.updateDataWithNewLocation(mCityList.get(position).id);
+    }
+
+    @Override
+    public void onClick(View view) {
+
+        switch (view.getId()) {
+            case R.id.iv_back:
+                finish();
+                break;
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        if(mRvSearchCity.getVisibility() == View.VISIBLE){
+            mRvSearchCity.setVisibility(View.GONE);
+        }else {
+            super.onBackPressed();
+        }
     }
 }
