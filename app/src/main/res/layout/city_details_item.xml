@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/background_grey">
+
+    <TextView
+        android:id="@+id/tv_city_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/_10sdp"
+        android:paddingBottom="@dimen/_10sdp"
+        android:textSize="@dimen/_11sdp"
+        android:textColor="@color/fontPrimary60"
+        android:textStyle="bold"
+        android:layout_gravity="center_horizontal"
+        android:text="Shubham Chauhan"/>
+
+</FrameLayout>

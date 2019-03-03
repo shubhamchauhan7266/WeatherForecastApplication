@@ -22,7 +22,6 @@ public class DailyWeatherDetailAdapter extends RecyclerView.Adapter<DailyWeather
     private ArrayList<DailyWeatherForecast.WeatherList> mWeatherList;
     private String TAG = this.getClass().getSimpleName();
 
-
     public DailyWeatherDetailAdapter(Context context, ArrayList<DailyWeatherForecast.WeatherList> weatherList) {
         mContext = context;
         mWeatherList = weatherList;

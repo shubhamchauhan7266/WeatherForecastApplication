@@ -73,7 +73,7 @@ public class WeatherForecastRepo {
     }
 
     public ArrayList<CityDetails> getCityDetails(String cityName) {
-        return mCityDetailsDao.getCityDetails(cityName);
+        return (ArrayList<CityDetails>) mCityDetailsDao.getCityDetails(cityName);
     }
 
     @SuppressLint("StaticFieldLeak")

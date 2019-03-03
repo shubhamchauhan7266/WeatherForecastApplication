@@ -8,6 +8,7 @@ import android.arch.persistence.room.Query;
 import com.weatherforecastapplication.database.entity.CityDetails;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Dao
 public interface CityDetailsDao {
@@ -16,5 +17,5 @@ public interface CityDetailsDao {
     void insert(ArrayList<CityDetails> cityList);
 
     @Query("SELECT id,name,country From city_details WHERE name = :cityName")
-    ArrayList<CityDetails> getCityDetails(String cityName);
+    List<CityDetails> getCityDetails(String cityName);
 }

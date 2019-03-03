@@ -3,12 +3,17 @@ package com.weatherforecastapplication.ui.activities;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import com.weatherforecastapplication.BaseActivity;
 import com.weatherforecastapplication.R;
+import com.weatherforecastapplication.adapters.CitySearchListAdapter;
 import com.weatherforecastapplication.adapters.FragmentViewPagerAdapter;
 import com.weatherforecastapplication.constants.Constants;
 import com.weatherforecastapplication.database.entity.CityDetails;
@@ -23,9 +28,12 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements CitySearchListAdapter.ICitySearchListAdapterCallBack {
 
     private FragmentViewPagerAdapter mAdapter;
+    private RecyclerView mRvSearchCity;
+    private CitySearchListAdapter mCityListAdapter;
+    private ArrayList<CityDetails> mCityList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,18 +42,26 @@ public class MainActivity extends BaseActivity {
 
         loadCityDetailsFromAsset();
 
+        mRvSearchCity = findViewById(R.id.rv_search_city);
         ViewPager viewPagerMirror = findViewById(R.id.view_pager_mirror);
-        setUpViewPager(viewPagerMirror);
         TabLayout tabLayout = findViewById(R.id.tab_layout_mirror);
+        final SearchView searchView = findViewById(R.id.search);
+
+        setSearchListAdapter();
+        setUpViewPager(viewPagerMirror);
+
         tabLayout.setupWithViewPager(viewPagerMirror);
 
-        final SearchView searchView = findViewById(R.id.search);
         searchView.setQueryHint("Enter country name");
-
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
             @Override
             public boolean onQueryTextSubmit(String query) {
+                WeatherForecastRepo repo = new WeatherForecastRepo(MainActivity.this, getApplication());
+                mCityList = repo.getCityDetails(query);
+                mCityListAdapter.setCityList(mCityList);
+                mCityListAdapter.notifyDataSetChanged();
+                mRvSearchCity.setVisibility(View.VISIBLE);
                 return false;
             }
 
@@ -63,6 +79,14 @@ public class MainActivity extends BaseActivity {
         });
 
         searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
+    }
+
+    private void setSearchListAdapter() {
+        mCityList = new ArrayList<>();
+        mCityListAdapter = new CitySearchListAdapter(this, mCityList);
+        mRvSearchCity.setLayoutManager(new LinearLayoutManager(this));
+        mRvSearchCity.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+        mRvSearchCity.setAdapter(mCityListAdapter);
     }
 
     /**
@@ -101,5 +125,11 @@ public class MainActivity extends BaseActivity {
 
         viewPagerMirror.setOffscreenPageLimit(3);
         viewPagerMirror.setAdapter(mAdapter);
+    }
+
+    @Override
+    public void onCityClick(int position) {
+        mRvSearchCity.setVisibility(View.GONE);
+        Toast.makeText(this,mCityList.get(position).name,Toast.LENGTH_SHORT).show();
     }
 }
