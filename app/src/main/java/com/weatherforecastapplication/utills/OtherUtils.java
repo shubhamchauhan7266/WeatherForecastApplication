@@ -3,7 +3,9 @@ package com.weatherforecastapplication.utills;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.text.Html;
+import android.util.Log;
 
 import com.weatherforecastapplication.BaseActivity;
 import com.weatherforecastapplication.R;
@@ -12,6 +14,8 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class OtherUtils {
+
+    private static final String TAG = OtherUtils.class.getSimpleName();
 
     /**
      * Method to show Alert Dialog with only positive button with not callback
@@ -56,5 +60,26 @@ public class OtherUtils {
             return null;
         }
         return json;
+    }
+
+    /**
+     * Method to show Alert Dialog with only positive button with callback
+     *
+     * @param message            message for alert
+     * @param positiveButtonText ok button text
+     */
+    public static void showAlertDialog(String message, String positiveButtonText, Context context, DialogInterface.OnClickListener clickListener) {
+        Log.v(TAG, "showAlertDialog");
+        if (context == null || ((Activity) context).isDestroyed() || ((Activity) context).isFinishing()) {
+            return;
+        }
+        final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setPositiveButton(positiveButtonText, clickListener);
+        builder.setMessage(Html.fromHtml(message));
+        builder.setCancelable(false);
+        builder.setTitle(context.getResources().getString(R.string.app_name));
+        if (!((Activity) context).isDestroyed() && !((Activity) context).isFinishing()) {
+            builder.show();
+        }
     }
 }

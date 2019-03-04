@@ -21,5 +21,6 @@ public interface Constants {
     String ID = "id";
     String NAME = "name";
     String COUNTRY = "country";
+    int REQUEST_LOCATION=101;
 
 }

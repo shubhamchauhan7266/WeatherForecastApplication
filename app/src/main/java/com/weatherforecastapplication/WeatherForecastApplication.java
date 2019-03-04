@@ -1,6 +1,6 @@
 package com.weatherforecastapplication;
 
-import android.app.Application;
+import android.support.multidex.MultiDexApplication;
 
 import com.weatherforecastapplication.constants.ApiConstants;
 import com.weatherforecastapplication.constants.Constants;
@@ -13,7 +13,7 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class WeatherForecastApplication extends Application {
+public class WeatherForecastApplication extends MultiDexApplication {
 
     private static Retrofit mRetrofitClient;
 

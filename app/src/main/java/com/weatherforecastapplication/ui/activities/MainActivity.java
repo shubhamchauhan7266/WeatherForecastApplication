@@ -1,14 +1,31 @@
 package com.weatherforecastapplication.ui.activities;
 
+import android.Manifest;
+import android.app.AlertDialog;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
+import android.content.DialogInterface;
+import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
+import android.os.Environment;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.SearchView;
+import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
 import com.weatherforecastapplication.BaseActivity;
 import com.weatherforecastapplication.R;
 import com.weatherforecastapplication.adapters.CitySearchListAdapter;
@@ -16,17 +33,24 @@ import com.weatherforecastapplication.adapters.FragmentViewPagerAdapter;
 import com.weatherforecastapplication.constants.Constants;
 import com.weatherforecastapplication.database.entity.CityDetails;
 import com.weatherforecastapplication.database.webrepo.WeatherForecastRepo;
+import com.weatherforecastapplication.models.WeatherLocationDetailsResponseModel;
 import com.weatherforecastapplication.ui.fragments.DailyWeatherForecastFragment;
 import com.weatherforecastapplication.ui.fragments.HourWeatherForecastFragment;
+import com.weatherforecastapplication.utills.AndroidPermissionUtils;
+import com.weatherforecastapplication.utills.ConnectivityUtils;
 import com.weatherforecastapplication.utills.OtherUtils;
+import com.weatherforecastapplication.viewmodel.WeatherLocationDetailsViewModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.ArrayList;
 
-public class MainActivity extends BaseActivity implements CitySearchListAdapter.ICitySearchListAdapterCallBack, View.OnClickListener {
+import static com.weatherforecastapplication.constants.Constants.APP_ID;
+
+public class MainActivity extends BaseActivity implements CitySearchListAdapter.ICitySearchListAdapterCallBack, View.OnClickListener, GoogleApiClient.ConnectionCallbacks, Observer<WeatherLocationDetailsResponseModel>, GoogleApiClient.OnConnectionFailedListener {
 
     private FragmentViewPagerAdapter mViewPagerAdapter;
     private RecyclerView mRvSearchCity;
@@ -36,11 +60,16 @@ public class MainActivity extends BaseActivity implements CitySearchListAdapter.
     private SearchView mSearchView;
     private TabLayout mTabLayout;
     private int mCurrentCityId;
+    private final int MY_PERMISSIONS_REQUEST_LOCATION = 101;
+    private GoogleApiClient mGoogleApiClient;
+    private WeatherLocationDetailsViewModel mViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        checkLocationPermission();
 
         loadCityDetailsFromAsset();
 
@@ -51,10 +80,27 @@ public class MainActivity extends BaseActivity implements CitySearchListAdapter.
     }
 
     /**
+     * Method to check runtime permissions
+     */
+    public void checkLocationPermission() {
+        if (AndroidPermissionUtils.checkPermission(MainActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION)) {
+
+            mGoogleApiClient = new GoogleApiClient.Builder(this, this, this).addApi(LocationServices.API).build();
+            mGoogleApiClient.connect();
+
+        } else {
+            AndroidPermissionUtils.requestForPermission(MainActivity.this,
+                    Constants.REQUEST_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION);
+        }
+    }
+
+    /**
      * Method is used to set up search view.
      */
     private void setUpSearchView() {
-        mSearchView.setQueryHint(getString(R.string.enter_city_name));
+//        mSearchView.setQueryHint(getString(R.string.enter_city_name));
+        mSearchView.setQueryHint("Enter city name");
+
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
             @Override
@@ -156,6 +202,15 @@ public class MainActivity extends BaseActivity implements CitySearchListAdapter.
         hideKeyboard();
         mRvSearchCity.setVisibility(View.GONE);
 
+        if (!ConnectivityUtils.isNetworkEnabled(this)) {
+            OtherUtils.showAlertDialog("Offline search not possible", getResources().getString(R.string.ok), MainActivity.this, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    finish();
+                }
+            });
+        }
+
         int TODAY = 0;
         int TOMORROW = 1;
         int NEXT_7_DAYS = 2;
@@ -189,5 +244,77 @@ public class MainActivity extends BaseActivity implements CitySearchListAdapter.
         } else {
             super.onBackPressed();
         }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case Constants.REQUEST_LOCATION: {
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    mGoogleApiClient = new GoogleApiClient.Builder(this, this,
+                            this).addApi(LocationServices.API).build();
+                    mGoogleApiClient.connect();
+                } else {
+                    AndroidPermissionUtils.requestForPermission(MainActivity.this,
+                            Constants.REQUEST_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION);
+                }
+                break;
+            }
+
+        }
+    }
+
+
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+        Log.e("onConnected","location");
+        if (AndroidPermissionUtils.checkPermission(MainActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION)) {
+            Log.e("onConnected","location inside");
+
+            Location lastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+
+            if(lastLocation!=null){
+                double lat = lastLocation.getLatitude(), lon = lastLocation.getLongitude();
+                Log.e("lastLocation",String.valueOf(lat) + " " + String.valueOf(lon));
+
+                mViewModel = ViewModelProviders.of(this).get(WeatherLocationDetailsViewModel.class);
+                mViewModel.getWeatherLocationDetails(this, lat, lon).observe(this, this);
+            }
+        }
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (mGoogleApiClient != null) {
+            mGoogleApiClient.connect();
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        mGoogleApiClient.disconnect();
+        super.onStop();
+    }
+
+    @Override
+    public void onChanged(@Nullable WeatherLocationDetailsResponseModel weatherLocationDetailsResponseModel) {
+        Log.e("onChanged","weatherLocationDetailsResponseModel");
+
+        // TODO update mCurrentCityId
+        Toast.makeText(this, "hello", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
     }
 }
