@@ -68,6 +68,7 @@ public class MainActivity extends BaseActivity implements CitySearchListAdapter.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        showProgressDialog();
         loadCityDetailsFromAsset();
         checkLocationPermission();
 
@@ -98,9 +99,7 @@ public class MainActivity extends BaseActivity implements CitySearchListAdapter.
      * Method is used to set up search view.
      */
     private void setUpSearchView() {
-//        mSearchView.setQueryHint(getString(R.string.enter_city_name));
-        mSearchView.setQueryHint("Enter city name");
-
+        mSearchView.setQueryHint(getString(R.string.enter_city_name));
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
             @Override
