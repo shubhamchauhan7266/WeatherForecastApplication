@@ -26,6 +26,11 @@ import java.util.Objects;
 import static com.weatherforecastapplication.constants.Constants.SPF_LOCATION_DATA;
 import static com.weatherforecastapplication.constants.Constants.SPK_LOCATION_DATA;
 
+/**
+ * This fragment class is used for showing Next 7 days screen.
+ *
+ * @author Shubham Chauhan
+ */
 public class DailyWeatherForecastFragment extends Fragment implements Observer<DailyWeatherForecast> {
 
     private static final String CITY_ID = "cityId";
@@ -40,6 +45,13 @@ public class DailyWeatherForecastFragment extends Fragment implements Observer<D
         mContext = (BaseActivity) context;
     }
 
+    /**
+     * Method is used get instance of this class
+     *
+     * @param cityId cityId
+     *
+     * @return instance of this class
+     */
     public static DailyWeatherForecastFragment getInstance(int cityId) {
 
         DailyWeatherForecastFragment dailyWeatherForecastFragment = new DailyWeatherForecastFragment();

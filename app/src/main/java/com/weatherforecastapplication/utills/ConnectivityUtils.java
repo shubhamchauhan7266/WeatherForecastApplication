@@ -14,6 +14,8 @@ import android.net.NetworkInfo;
 /**
  * <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <br/>
  * <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+ *
+ * @author Shubham Chauhan
  */
 public class ConnectivityUtils {
 

@@ -5,6 +5,11 @@ import android.arch.persistence.room.PrimaryKey;
 
 import com.google.gson.annotations.Expose;
 
+/**
+ * This Entity class is used to create a table for City Details.
+ *
+ * @author Shubham Chauhan
+ */
 @Entity(tableName = "city_details")
 public class CityDetails {
 

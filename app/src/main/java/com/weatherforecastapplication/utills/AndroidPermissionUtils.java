@@ -1,15 +1,14 @@
 package com.weatherforecastapplication.utills;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
 
-import java.util.ArrayList;
-
 /**
  * Class is used to check given runtime permission.
+ *
+ * @author Shubham Chauhan
  */
 public class AndroidPermissionUtils {
 

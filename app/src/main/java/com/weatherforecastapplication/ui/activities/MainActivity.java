@@ -45,6 +45,11 @@ import java.util.ArrayList;
 import static com.weatherforecastapplication.constants.Constants.SPF_LOCATION_DATA;
 import static com.weatherforecastapplication.constants.Constants.SPK_LOCATION_DATA;
 
+/**
+ * This activity class is used for showing all tabs like today, tomorrow and next 7 days screen.
+ *
+ * @author Shubham Chauhan
+ */
 public class MainActivity extends BaseActivity implements CitySearchListAdapter.ICitySearchListAdapterCallBack,
         View.OnClickListener, Observer<WeatherLocationDetailsResponseModel>, OnSuccessListener<Location> {
 
@@ -56,7 +61,6 @@ public class MainActivity extends BaseActivity implements CitySearchListAdapter.
     private SearchView mSearchView;
     private TabLayout mTabLayout;
     private int mCurrentCityId;
-    private WeatherLocationDetailsViewModel mViewModel;
     private FusedLocationProviderClient mFusedLocationClient;
 
     @Override
@@ -69,7 +73,6 @@ public class MainActivity extends BaseActivity implements CitySearchListAdapter.
 
         initUi();
         setSearchListAdapter();
-//        setUpViewPager(mViewPagerMirror);
         setUpSearchView();
     }
 
@@ -271,7 +274,6 @@ public class MainActivity extends BaseActivity implements CitySearchListAdapter.
         if (weatherLocationDetailsResponseModel != null) {
             mCurrentCityId = weatherLocationDetailsResponseModel.id;
             SharedPrefsUtils.setSharedPrefInt(this,SPF_LOCATION_DATA,SPK_LOCATION_DATA,mCurrentCityId);
-//            Toast.makeText(this, weatherLocationDetailsResponseModel.name, Toast.LENGTH_SHORT).show();
         }
         setUpViewPager(mViewPagerMirror);
     }
@@ -285,7 +287,7 @@ public class MainActivity extends BaseActivity implements CitySearchListAdapter.
             if (location != null) {
                 double lat = location.getLatitude(), lon = location.getLongitude();
 
-                mViewModel = ViewModelProviders.of(this).get(WeatherLocationDetailsViewModel.class);
+                WeatherLocationDetailsViewModel mViewModel = ViewModelProviders.of(this).get(WeatherLocationDetailsViewModel.class);
                 mViewModel.getWeatherLocationDetails(this, lat, lon).observe(this, this);
             }
         }

@@ -16,18 +16,26 @@ import com.weatherforecastapplication.utills.DateUtills;
 
 import java.util.ArrayList;
 
+/**
+ * This adapter class is used for Hour weather details.
+ *
+ * @author Shubham Chauhan
+ */
 public class HourWeatherDetailAdapter extends RecyclerView.Adapter<HourWeatherDetailAdapter.ViewHolder> {
 
     private Context mContext;
     private ArrayList<HourWeatherForecast.WeatherList> mWeatherList;
-    private String TAG = this.getClass().getSimpleName();
-
 
     public HourWeatherDetailAdapter(Context context, ArrayList<HourWeatherForecast.WeatherList> weatherList) {
         mContext = context;
         mWeatherList = weatherList;
     }
 
+    /**
+     * Method is used to set weather details list
+     *
+     * @param weatherList a list of weather details
+     */
     public void setWeatherList(ArrayList<HourWeatherForecast.WeatherList> weatherList) {
         mWeatherList = weatherList;
     }

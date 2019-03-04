@@ -10,6 +10,11 @@ import com.weatherforecastapplication.database.entity.CityDetails;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This Dao interface is used for define City details operation.
+ *
+ * @author Shubham Chauhan
+ */
 @Dao
 public interface CityDetailsDao {
 

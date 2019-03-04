@@ -7,38 +7,19 @@ import android.content.DialogInterface;
 import android.text.Html;
 import android.util.Log;
 
-import com.weatherforecastapplication.BaseActivity;
 import com.weatherforecastapplication.R;
 
 import java.io.IOException;
 import java.io.InputStream;
 
+/**
+ * Class is used to provide method for alert dialog and other functionality.
+ *
+ * @author Shubham Chauhan
+ */
 public class OtherUtils {
 
     private static final String TAG = OtherUtils.class.getSimpleName();
-
-    /**
-     * Method to show Alert Dialog with only positive button with not callback
-     *
-     * @param message            message for alert
-     * @param positiveButtonText ok button text
-     */
-    public static void showAlertDialog(String message, String positiveButtonText, Context context) {
-        if (context == null || ((Activity) context).isDestroyed() || ((Activity) context).isFinishing()) {
-            return;
-        }
-        final AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setPositiveButton(positiveButtonText, null);
-        builder.setMessage(Html.fromHtml(message));
-        builder.setTitle(context.getResources().getString(R.string.app_name));
-        if (!((BaseActivity) context).isDestroyed() && !((BaseActivity) context).isFinishing()) {
-            try {
-                builder.show();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
 
     /**
      * Method is used to load json data from json file in Asset.

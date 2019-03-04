@@ -15,6 +15,11 @@ import com.weatherforecastapplication.database.entity.HourWeatherForecast;
 
 import java.util.ArrayList;
 
+/**
+ * This Repository class is used to handle database operation.
+ *
+ * @author Shubham Chauhan
+ */
 public class WeatherForecastRepo {
 
     private final Context mContext;

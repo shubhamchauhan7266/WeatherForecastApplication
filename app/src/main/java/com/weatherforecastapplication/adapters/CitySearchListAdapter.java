@@ -13,18 +13,27 @@ import com.weatherforecastapplication.database.entity.CityDetails;
 
 import java.util.ArrayList;
 
+
+/**
+ * This adapter class is used for City list which come when we search list.
+ *
+ * @author Shubham Chauhan
+ */
 public class CitySearchListAdapter extends RecyclerView.Adapter<CitySearchListAdapter.ViewHolder> {
 
     private ArrayList<CityDetails> mCityList;
     private ICitySearchListAdapterCallBack mICitySearchListCallBack;
-    private final Context mContext;
 
     public CitySearchListAdapter(Context context, ArrayList<CityDetails> cityList) {
-        mContext = context;
         mICitySearchListCallBack = (ICitySearchListAdapterCallBack) context;
         mCityList = cityList;
     }
 
+    /**
+     * Method is used to set city list
+     *
+     * @param cityList a list of city
+     */
     public void setCityList(ArrayList<CityDetails> cityList) {
         mCityList = cityList;
     }

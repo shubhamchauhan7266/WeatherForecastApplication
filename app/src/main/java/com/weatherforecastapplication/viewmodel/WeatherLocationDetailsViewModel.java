@@ -15,6 +15,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * View Model class for Weather location details.
+ *
+ * @author Shubham Chauhan
+ */
 public class WeatherLocationDetailsViewModel extends ViewModel {
 
     //this is the data that we will fetch asynchronously
@@ -28,7 +33,6 @@ public class WeatherLocationDetailsViewModel extends ViewModel {
         }
 
         if (ConnectivityUtils.isNetworkEnabled(context)) {
-
             loadWeatherLocationDetails(context, lat, lon, ApiConstants.API_PARAM_CONSTANT.IMPERIAL, Constants.APP_ID);
         } else {
             mWeatherLocationDetails.setValue(null);

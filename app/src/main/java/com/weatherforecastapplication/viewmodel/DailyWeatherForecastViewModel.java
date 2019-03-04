@@ -15,6 +15,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * View Model class for Daily weather forecast details.
+ *
+ * @author Shubham Chauhan
+ */
 public class DailyWeatherForecastViewModel extends ViewModel {
 
     //this is the data that we will fetch asynchronously
@@ -25,7 +30,6 @@ public class DailyWeatherForecastViewModel extends ViewModel {
         //if the list is null
         if (mDailyWeatherForecastData == null) {
             mDailyWeatherForecastData = new MutableLiveData<>();
-            //we will load it asynchronously from server in this method
         }
 
         if (ConnectivityUtils.isNetworkEnabled(context)) {

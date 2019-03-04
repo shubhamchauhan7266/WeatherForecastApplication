@@ -17,6 +17,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * View Model class for Hour weather forecast details.
+ *
+ * @author Shubham Chauhan
+ */
 public class HourWeatherForecastViewModel extends ViewModel {
     private String TAG = HourWeatherForecastViewModel.class.getSimpleName();
 

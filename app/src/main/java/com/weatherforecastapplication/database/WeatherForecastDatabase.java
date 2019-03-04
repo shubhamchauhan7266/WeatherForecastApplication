@@ -35,6 +35,12 @@ public abstract class WeatherForecastDatabase extends RoomDatabase {
 
     private static WeatherForecastDatabase mProductDatabase;
 
+    /**
+     * Method is used to create a instance of room database.
+     *
+     * @param context context
+     * @return instance of room database
+     */
     public static WeatherForecastDatabase getInstance(final Context context) {
         if (mProductDatabase == null) {
             synchronized (WeatherForecastDatabase.class) {

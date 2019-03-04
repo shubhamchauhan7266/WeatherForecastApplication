@@ -8,6 +8,11 @@ import android.arch.persistence.room.Query;
 
 import com.weatherforecastapplication.database.entity.HourWeatherForecast;
 
+/**
+ * This Dao interface is used for define hourly weather details operation.
+ *
+ * @author Shubham Chauhan
+ */
 @Dao
 public interface HourWeatherForecastDao {
 

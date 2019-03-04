@@ -11,6 +11,11 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
+/**
+ * Base class for all activity.
+ *
+ * @author Shubham Chauhan
+ */
 public abstract class BaseActivity extends AppCompatActivity {
 
     private Dialog customProgressDialog;
@@ -60,6 +65,9 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Method is used to hide keyboard
+     */
     public void hideKeyboard() {
         View view = findViewById(android.R.id.content);
         if (view != null) {
@@ -70,6 +78,9 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Method is used to show keyboard
+     */
     public void showKeyboard() {
         InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         if (inputMethodManager != null) {

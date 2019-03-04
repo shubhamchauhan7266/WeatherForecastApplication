@@ -9,6 +9,11 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 
+/**
+ * This interface is used for call Api.
+ *
+ * @author Shubham Chauhan
+ */
 public interface ApiClientInterface {
 
     @GET(ApiConstants.WEATHER_HOUR_DETAILS_API)

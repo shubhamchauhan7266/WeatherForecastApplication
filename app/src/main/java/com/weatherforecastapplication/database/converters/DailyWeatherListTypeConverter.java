@@ -9,6 +9,11 @@ import com.weatherforecastapplication.database.entity.DailyWeatherForecast;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
+/**
+ * This converter class is used for weather details list to string and vise versa.
+ *
+ * @author Shubham Chauhan
+ */
 public class DailyWeatherListTypeConverter {
 
     private static Gson gson = new Gson();

@@ -8,6 +8,11 @@ import android.arch.persistence.room.Query;
 
 import com.weatherforecastapplication.database.entity.DailyWeatherForecast;
 
+/**
+ * This Dao interface is used for define daily weather details operation.
+ *
+ * @author Shubham Chauhan
+ */
 @Dao
 public interface DailyWeatherForecastDao {
 

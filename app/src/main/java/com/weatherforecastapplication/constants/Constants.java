@@ -9,7 +9,7 @@ public interface Constants {
 
     int NETWORK_TIMEOUT = 60;
 
-    String APP_ID = "18b9eb4340b018f7bc1b637d5909c7eb";
+    String APP_ID = "18b9eb4340b018f7bc1b637d5909c7eb";  // f19b9eb5636afa56c3a014cc6fa3a8b8
 
     String CLEAR_SKY = "Clear";
     String RAIN = "Rain";

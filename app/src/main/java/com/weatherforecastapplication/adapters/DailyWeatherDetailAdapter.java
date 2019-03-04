@@ -16,17 +16,26 @@ import com.weatherforecastapplication.utills.DateUtills;
 
 import java.util.ArrayList;
 
+/**
+ * This adapter class is used for daily weather details.
+ *
+ * @author Shubham Chauhan
+ */
 public class DailyWeatherDetailAdapter extends RecyclerView.Adapter<DailyWeatherDetailAdapter.ViewHolder> {
 
     private Context mContext;
     private ArrayList<DailyWeatherForecast.WeatherList> mWeatherList;
-    private String TAG = this.getClass().getSimpleName();
 
     public DailyWeatherDetailAdapter(Context context, ArrayList<DailyWeatherForecast.WeatherList> weatherList) {
         mContext = context;
         mWeatherList = weatherList;
     }
 
+    /**
+     * Method is used to set weather details list
+     *
+     * @param weatherList a list of weather details
+     */
     public void setWeatherList(ArrayList<DailyWeatherForecast.WeatherList> weatherList) {
         mWeatherList = weatherList;
     }

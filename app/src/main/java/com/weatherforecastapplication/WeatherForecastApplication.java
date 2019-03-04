@@ -13,6 +13,11 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+/**
+ * Application class for whole application.
+ *
+ * @author Shubham Chauhan
+ */
 public class WeatherForecastApplication extends MultiDexApplication {
 
     private static Retrofit mRetrofitClient;
@@ -26,7 +31,7 @@ public class WeatherForecastApplication extends MultiDexApplication {
     }
 
     /**
-     * Setup Retropfit CLIENT
+     * Setup Retrofit CLIENT
      */
     private void setRetrofitApiClient() {
 
@@ -43,8 +48,6 @@ public class WeatherForecastApplication extends MultiDexApplication {
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-
-
     }
 
     /**

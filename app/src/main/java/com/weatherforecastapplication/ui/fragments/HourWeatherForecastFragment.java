@@ -29,6 +29,11 @@ import java.util.Objects;
 import static com.weatherforecastapplication.constants.Constants.SPF_LOCATION_DATA;
 import static com.weatherforecastapplication.constants.Constants.SPK_LOCATION_DATA;
 
+/**
+ * This fragment class is used for showing today and tomorrow screen.
+ *
+ * @author Shubham Chauhan
+ */
 public class HourWeatherForecastFragment extends Fragment implements Observer<HourWeatherForecast> {
 
     private static final String DAY_KEY = "day";
@@ -54,6 +59,14 @@ public class HourWeatherForecastFragment extends Fragment implements Observer<Ho
         mContext = (BaseActivity) context;
     }
 
+    /**
+     * Method is used get instance of this class
+     *
+     * @param day day
+     * @param cityId cityId
+     *
+     * @return instance of this class
+     */
     public static HourWeatherForecastFragment getInstance(String day, int cityId) {
 
         HourWeatherForecastFragment hourWeatherForecastFragment = new HourWeatherForecastFragment();
@@ -105,6 +118,11 @@ public class HourWeatherForecastFragment extends Fragment implements Observer<Ho
         return view;
     }
 
+    /**
+     * Method is used to init views
+     *
+     * @param view view
+     */
     private void initUi(View view) {
         mTvWindValue = view.findViewById(R.id.tv_wind_value);
         mTvCloudinessValue = view.findViewById(R.id.tv_cloudiness_value);
