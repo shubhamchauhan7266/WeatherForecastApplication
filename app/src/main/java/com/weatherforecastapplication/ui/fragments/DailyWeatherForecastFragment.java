@@ -49,9 +49,12 @@ public class DailyWeatherForecastFragment extends Fragment implements Observer<D
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null) {
-            //TODO update mCityId
-//            mCityId = getArguments().getInt(CITY_ID);
-            mCityId = 1270260;
+
+            mCityId = getArguments().getInt(CITY_ID,1270260);
+
+            if(mCityId == 0){
+                mCityId = 1270260;
+            }
         }
     }
 

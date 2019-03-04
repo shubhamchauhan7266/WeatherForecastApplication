@@ -21,15 +21,17 @@ public class WeatherLocationDetailsViewModel extends ViewModel {
     private MutableLiveData<WeatherLocationDetailsResponseModel> mWeatherLocationDetails;
 
     //we will call this method to get the data
-    public LiveData<WeatherLocationDetailsResponseModel> getWeatherLocationDetails(BaseActivity context, double lat,double lon) {
+    public LiveData<WeatherLocationDetailsResponseModel> getWeatherLocationDetails(BaseActivity context, double lat, double lon) {
         //if the list is null
         if (mWeatherLocationDetails == null) {
             mWeatherLocationDetails = new MutableLiveData<>();
         }
 
-        if (!ConnectivityUtils.isNetworkEnabled(context)) {
+        if (ConnectivityUtils.isNetworkEnabled(context)) {
 
-            loadWeatherLocationDetails(context,lat,lon, ApiConstants.API_PARAM_CONSTANT.IMPERIAL,Constants.APP_ID);
+            loadWeatherLocationDetails(context, lat, lon, ApiConstants.API_PARAM_CONSTANT.IMPERIAL, Constants.APP_ID);
+        } else {
+            mWeatherLocationDetails.setValue(null);
         }
         //finally we will return the list
         return mWeatherLocationDetails;
@@ -39,7 +41,7 @@ public class WeatherLocationDetailsViewModel extends ViewModel {
     //This method is using Retrofit to get the JSON data from URL
     private void loadWeatherLocationDetails(final BaseActivity context, double lat, double lon, String units, String appId) {
 
-        Call<WeatherLocationDetailsResponseModel> call = WeatherForecastApplication.getClient().getWeatherLocationDetails(lat, lon,units,appId);
+        Call<WeatherLocationDetailsResponseModel> call = WeatherForecastApplication.getClient().getWeatherLocationDetails(lat, lon, units, appId);
 
         call.enqueue(new Callback<WeatherLocationDetailsResponseModel>() {
             @Override

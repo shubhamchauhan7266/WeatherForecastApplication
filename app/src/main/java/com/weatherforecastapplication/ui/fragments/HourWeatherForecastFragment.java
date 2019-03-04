@@ -66,9 +66,11 @@ public class HourWeatherForecastFragment extends Fragment implements Observer<Ho
         if (getArguments() != null) {
             String day = getArguments().getString(DAY_KEY, Constants.TODAY);
 
-            //TODO update mCityId
-//            mCityId = getArguments().getInt(CITY_ID);
-            mCityId = 1270260;
+            mCityId = getArguments().getInt(CITY_ID,1270260);
+
+            if(mCityId == 0){
+                mCityId = 1270260;
+            }
 
             mIsTomorrow = day.equals(Constants.TOMORROW);
         }

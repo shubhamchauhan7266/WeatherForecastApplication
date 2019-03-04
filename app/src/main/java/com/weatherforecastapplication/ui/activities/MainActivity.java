@@ -1,19 +1,13 @@
 package com.weatherforecastapplication.ui.activities;
 
 import android.Manifest;
-import android.app.AlertDialog;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
-import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
-import android.os.Environment;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,11 +15,10 @@ import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.SearchView;
-import android.widget.Toast;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.weatherforecastapplication.BaseActivity;
 import com.weatherforecastapplication.R;
 import com.weatherforecastapplication.adapters.CitySearchListAdapter;
@@ -45,12 +38,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
 import java.util.ArrayList;
 
-import static com.weatherforecastapplication.constants.Constants.APP_ID;
-
-public class MainActivity extends BaseActivity implements CitySearchListAdapter.ICitySearchListAdapterCallBack, View.OnClickListener, GoogleApiClient.ConnectionCallbacks, Observer<WeatherLocationDetailsResponseModel>, GoogleApiClient.OnConnectionFailedListener {
+public class MainActivity extends BaseActivity implements CitySearchListAdapter.ICitySearchListAdapterCallBack,
+        View.OnClickListener, Observer<WeatherLocationDetailsResponseModel>, OnSuccessListener<Location> {
 
     private FragmentViewPagerAdapter mViewPagerAdapter;
     private RecyclerView mRvSearchCity;
@@ -60,9 +51,8 @@ public class MainActivity extends BaseActivity implements CitySearchListAdapter.
     private SearchView mSearchView;
     private TabLayout mTabLayout;
     private int mCurrentCityId;
-    private final int MY_PERMISSIONS_REQUEST_LOCATION = 101;
-    private GoogleApiClient mGoogleApiClient;
     private WeatherLocationDetailsViewModel mViewModel;
+    private FusedLocationProviderClient mFusedLocationClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +65,7 @@ public class MainActivity extends BaseActivity implements CitySearchListAdapter.
 
         initUi();
         setSearchListAdapter();
-        setUpViewPager(mViewPagerMirror);
+//        setUpViewPager(mViewPagerMirror);
         setUpSearchView();
     }
 
@@ -83,14 +73,17 @@ public class MainActivity extends BaseActivity implements CitySearchListAdapter.
      * Method to check runtime permissions
      */
     public void checkLocationPermission() {
-        if (AndroidPermissionUtils.checkPermission(MainActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION)) {
+        if (AndroidPermissionUtils.checkPermission(MainActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION)) {
 
-            mGoogleApiClient = new GoogleApiClient.Builder(this, this, this).addApi(LocationServices.API).build();
-            mGoogleApiClient.connect();
+            mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+            mFusedLocationClient.getLastLocation()
+                    .addOnSuccessListener(this, this);
 
         } else {
             AndroidPermissionUtils.requestForPermission(MainActivity.this,
-                    Constants.REQUEST_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION);
+                    Constants.REQUEST_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION,
+                    Manifest.permission.ACCESS_FINE_LOCATION);
         }
     }
 
@@ -203,10 +196,10 @@ public class MainActivity extends BaseActivity implements CitySearchListAdapter.
         mRvSearchCity.setVisibility(View.GONE);
 
         if (!ConnectivityUtils.isNetworkEnabled(this)) {
-            OtherUtils.showAlertDialog("Offline search not possible", getResources().getString(R.string.ok), MainActivity.this, new DialogInterface.OnClickListener() {
+            OtherUtils.showAlertDialog(getString(R.string.internet_error_message), getResources().getString(R.string.ok), MainActivity.this, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    finish();
+                    dialog.dismiss();
                 }
             });
         }
@@ -251,70 +244,35 @@ public class MainActivity extends BaseActivity implements CitySearchListAdapter.
                                            String permissions[], int[] grantResults) {
         switch (requestCode) {
             case Constants.REQUEST_LOCATION: {
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-                    mGoogleApiClient = new GoogleApiClient.Builder(this, this,
-                            this).addApi(LocationServices.API).build();
-                    mGoogleApiClient.connect();
-                } else {
-                    AndroidPermissionUtils.requestForPermission(MainActivity.this,
-                            Constants.REQUEST_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION);
-                }
+                checkLocationPermission();
                 break;
             }
-
         }
     }
 
+    @Override
+    public void onChanged(@Nullable WeatherLocationDetailsResponseModel weatherLocationDetailsResponseModel) {
+        Log.e("onChanged", "weatherLocationDetailsResponseModel");
+
+        if (weatherLocationDetailsResponseModel != null) {
+            mCurrentCityId = weatherLocationDetailsResponseModel.id;
+//            Toast.makeText(this, weatherLocationDetailsResponseModel.name, Toast.LENGTH_SHORT).show();
+        }
+        setUpViewPager(mViewPagerMirror);
+    }
 
     @Override
-    public void onConnected(@Nullable Bundle bundle) {
-        Log.e("onConnected","location");
+    public void onSuccess(Location location) {
+
         if (AndroidPermissionUtils.checkPermission(MainActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION)) {
-            Log.e("onConnected","location inside");
+            Log.e("onConnected", "location inside");
 
-            Location lastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-
-            if(lastLocation!=null){
-                double lat = lastLocation.getLatitude(), lon = lastLocation.getLongitude();
-                Log.e("lastLocation",String.valueOf(lat) + " " + String.valueOf(lon));
+            if (location != null) {
+                double lat = location.getLatitude(), lon = location.getLongitude();
 
                 mViewModel = ViewModelProviders.of(this).get(WeatherLocationDetailsViewModel.class);
                 mViewModel.getWeatherLocationDetails(this, lat, lon).observe(this, this);
             }
         }
-    }
-
-    @Override
-    public void onConnectionSuspended(int i) {
-
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        if (mGoogleApiClient != null) {
-            mGoogleApiClient.connect();
-        }
-    }
-
-    @Override
-    protected void onStop() {
-        mGoogleApiClient.disconnect();
-        super.onStop();
-    }
-
-    @Override
-    public void onChanged(@Nullable WeatherLocationDetailsResponseModel weatherLocationDetailsResponseModel) {
-        Log.e("onChanged","weatherLocationDetailsResponseModel");
-
-        // TODO update mCurrentCityId
-        Toast.makeText(this, "hello", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
     }
 }
