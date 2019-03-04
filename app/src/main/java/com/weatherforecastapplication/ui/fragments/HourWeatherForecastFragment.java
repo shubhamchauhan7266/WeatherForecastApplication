@@ -20,9 +20,14 @@ import com.weatherforecastapplication.adapters.HourWeatherDetailAdapter;
 import com.weatherforecastapplication.constants.Constants;
 import com.weatherforecastapplication.database.entity.HourWeatherForecast;
 import com.weatherforecastapplication.utills.DateUtills;
+import com.weatherforecastapplication.utills.SharedPrefsUtils;
 import com.weatherforecastapplication.viewmodel.HourWeatherForecastViewModel;
 
 import java.util.ArrayList;
+import java.util.Objects;
+
+import static com.weatherforecastapplication.constants.Constants.SPF_LOCATION_DATA;
+import static com.weatherforecastapplication.constants.Constants.SPK_LOCATION_DATA;
 
 public class HourWeatherForecastFragment extends Fragment implements Observer<HourWeatherForecast> {
 
@@ -66,10 +71,10 @@ public class HourWeatherForecastFragment extends Fragment implements Observer<Ho
         if (getArguments() != null) {
             String day = getArguments().getString(DAY_KEY, Constants.TODAY);
 
-            mCityId = getArguments().getInt(CITY_ID,1270260);
+            mCityId = getArguments().getInt(CITY_ID,0);
 
             if(mCityId == 0){
-                mCityId = 1270260;
+                mCityId =SharedPrefsUtils.getSharedPrefInt(Objects.requireNonNull(getActivity()),SPF_LOCATION_DATA,SPK_LOCATION_DATA,1270260);
             }
 
             mIsTomorrow = day.equals(Constants.TOMORROW);

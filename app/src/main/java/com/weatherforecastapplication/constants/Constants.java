@@ -23,4 +23,6 @@ public interface Constants {
     String COUNTRY = "country";
     int REQUEST_LOCATION=101;
 
+    String SPF_LOCATION_DATA = "spf_location_data";
+    String SPK_LOCATION_DATA = "spk_location_data";
 }

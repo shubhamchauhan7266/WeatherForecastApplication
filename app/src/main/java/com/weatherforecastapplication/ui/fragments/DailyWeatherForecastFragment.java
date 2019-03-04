@@ -17,9 +17,14 @@ import com.weatherforecastapplication.BaseActivity;
 import com.weatherforecastapplication.R;
 import com.weatherforecastapplication.adapters.DailyWeatherDetailAdapter;
 import com.weatherforecastapplication.database.entity.DailyWeatherForecast;
+import com.weatherforecastapplication.utills.SharedPrefsUtils;
 import com.weatherforecastapplication.viewmodel.DailyWeatherForecastViewModel;
 
 import java.util.ArrayList;
+import java.util.Objects;
+
+import static com.weatherforecastapplication.constants.Constants.SPF_LOCATION_DATA;
+import static com.weatherforecastapplication.constants.Constants.SPK_LOCATION_DATA;
 
 public class DailyWeatherForecastFragment extends Fragment implements Observer<DailyWeatherForecast> {
 
@@ -50,10 +55,10 @@ public class DailyWeatherForecastFragment extends Fragment implements Observer<D
 
         if (getArguments() != null) {
 
-            mCityId = getArguments().getInt(CITY_ID,1270260);
+            mCityId = getArguments().getInt(CITY_ID, 0);
 
-            if(mCityId == 0){
-                mCityId = 1270260;
+            if (mCityId == 0) {
+                mCityId = SharedPrefsUtils.getSharedPrefInt(Objects.requireNonNull(getActivity()), SPF_LOCATION_DATA, SPK_LOCATION_DATA, 1270260);
             }
         }
     }

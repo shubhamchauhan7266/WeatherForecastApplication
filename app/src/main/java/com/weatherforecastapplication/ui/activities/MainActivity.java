@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -32,6 +33,7 @@ import com.weatherforecastapplication.ui.fragments.HourWeatherForecastFragment;
 import com.weatherforecastapplication.utills.AndroidPermissionUtils;
 import com.weatherforecastapplication.utills.ConnectivityUtils;
 import com.weatherforecastapplication.utills.OtherUtils;
+import com.weatherforecastapplication.utills.SharedPrefsUtils;
 import com.weatherforecastapplication.viewmodel.WeatherLocationDetailsViewModel;
 
 import org.json.JSONArray;
@@ -39,6 +41,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+
+import static com.weatherforecastapplication.constants.Constants.SPF_LOCATION_DATA;
+import static com.weatherforecastapplication.constants.Constants.SPK_LOCATION_DATA;
 
 public class MainActivity extends BaseActivity implements CitySearchListAdapter.ICitySearchListAdapterCallBack,
         View.OnClickListener, Observer<WeatherLocationDetailsResponseModel>, OnSuccessListener<Location> {
@@ -59,9 +64,8 @@ public class MainActivity extends BaseActivity implements CitySearchListAdapter.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        checkLocationPermission();
-
         loadCityDetailsFromAsset();
+        checkLocationPermission();
 
         initUi();
         setSearchListAdapter();
@@ -244,7 +248,17 @@ public class MainActivity extends BaseActivity implements CitySearchListAdapter.
                                            String permissions[], int[] grantResults) {
         switch (requestCode) {
             case Constants.REQUEST_LOCATION: {
-                checkLocationPermission();
+                if (AndroidPermissionUtils.checkPermission(MainActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION,
+                        Manifest.permission.ACCESS_FINE_LOCATION)) {
+
+                    mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+                    mFusedLocationClient.getLastLocation()
+                            .addOnSuccessListener(this, this);
+
+                } else {
+                    setUpViewPager(mViewPagerMirror);
+                    Toast.makeText(this, "Turn on location permission to get current location's weather conditions", Toast.LENGTH_LONG).show();
+                }
                 break;
             }
         }
@@ -256,6 +270,7 @@ public class MainActivity extends BaseActivity implements CitySearchListAdapter.
 
         if (weatherLocationDetailsResponseModel != null) {
             mCurrentCityId = weatherLocationDetailsResponseModel.id;
+            SharedPrefsUtils.setSharedPrefInt(this,SPF_LOCATION_DATA,SPK_LOCATION_DATA,mCurrentCityId);
 //            Toast.makeText(this, weatherLocationDetailsResponseModel.name, Toast.LENGTH_SHORT).show();
         }
         setUpViewPager(mViewPagerMirror);
